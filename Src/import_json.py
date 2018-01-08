@@ -43,6 +43,18 @@ for idir in os.listdir(path_source):
     continue
 
 
+dict_filtering = articles
+
+"""============================================================================
+    write json
+============================================================================"""
+
+for d in dict_filtering:
+    idict = dict_filtering[d]
+    ifile = d + '_filtering.json'
+    with open(path_target + '/' + ifile, 'w', encoding = 'utf-8') as outfile:
+        json.dump(idict, outfile)
+
 
 
 
