@@ -11,8 +11,9 @@ Par rapport à la version 1-1 :
 import os
 import re
 import json
-
-
+from nltk.stem import SnowballStemmer
+import utils_filtering as utils
+from sklearn.feature_extraction.text import CountVectorizer
 """============================================================================
     links
 ============================================================================"""
@@ -21,8 +22,8 @@ import json
 # path_input = '/var/www/html/projet2018/data/clean/robot
 # path_target = '/var/www/html/projet2018/data/clean/filtering'
 
-path_source = 'data/source_press_article'
-path_target = 'data/target_press_article'
+path_source = '../data/source_press_article'
+path_target = '../data/target_press_article'
 
 """============================================================================
     import json
@@ -41,9 +42,25 @@ for idir in os.listdir(path_source):
             
         continue
     continue
+print('End import !')
 
+"""============================================================================
+    traitement
+============================================================================"""
 
-dict_filtering = articles
+## Get Corpus
+corpus = [articles[iart]['content'] for iart in articles]
+
+## Stemmatisation
+stems_0 = utils.stemming(corpus[0])
+
+## TF-IDF
+df_tf_idf = utils.tf_idf(corpus)
+df_tf_idf.columns = list(articles)
+
+dict_filtering = df_tf_idf.to_dict()
+
+print('End Traitement !')
 
 """============================================================================
     write json
@@ -55,7 +72,7 @@ for d in dict_filtering:
     with open(path_target + '/' + ifile, 'w', encoding = 'utf-8') as outfile:
         json.dump(idict, outfile)
 
-
+print('End writing !')
 
 
 
