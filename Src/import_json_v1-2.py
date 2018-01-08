@@ -21,13 +21,8 @@ import json
 # path_input = '/var/www/html/projet2018/data/clean/robot
 # path_target = '/var/www/html/projet2018/data/clean/filtering'
 
-path_source = 'data/source_press_article/nouvelobs/artnoob12018-01-08_robot.json'
-
-## LIEN SUR ORDI
-file_test = 'data/source_press_article/nouvelobs/artnoob12018-01-08_robot.json'
-res_test = 'data/target_press_article/nouvelobs/artnoob12018-01-08_robot.json'
-
-path_target = 'data/clean/filtering'
+path_source = 'data/source_press_article'
+path_target = 'data/target_press_article'
 
 """============================================================================
     import json
