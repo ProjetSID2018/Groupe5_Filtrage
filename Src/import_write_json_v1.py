@@ -24,8 +24,8 @@ import utils.utils_filtering_v1 as utils
 
 
 ## LIEN SUR MON ORDI
-file_test = 'data/jeu_test.json'
-res_test = 'data/response_test.json'
+file_test = 'data/source_press_article/nouvelobs/artnoob12018-01-08_robot.json'
+res_test = 'data/target_press_article/nouvelobs/artnoob12018-01-08_robot.json'
 
 #path_input = 'data/clean/robot'
 #path_target = 'data/clean/filtering'
