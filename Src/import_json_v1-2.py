@@ -21,10 +21,11 @@ import json
 # path_input = '/var/www/html/projet2018/data/clean/robot
 # path_target = '/var/www/html/projet2018/data/clean/filtering'
 
-path_source = 'data/clean/robot'
-path_source += ("/" + os.listdir(path_source)[-1])
+path_source = 'data/source_press_article/nouvelobs/artnoob12018-01-08_robot.json'
 
 ## LIEN SUR ORDI
+file_test = 'data/source_press_article/nouvelobs/artnoob12018-01-08_robot.json'
+res_test = 'data/target_press_article/nouvelobs/artnoob12018-01-08_robot.json'
 
 path_target = 'data/clean/filtering'
 
@@ -38,8 +39,11 @@ for idir in os.listdir(path_source):
     xdir = path_source + '/' + idir
     for ifile in os.listdir(xdir):
         iname = re.findall('^(.*?)_robot\.json', ifile)[0]
+        
+        ## IMPORT JSON :
         with open(xdir + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
             articles[iname] = json.load(dict_robot)
+            
         continue
     continue
 
