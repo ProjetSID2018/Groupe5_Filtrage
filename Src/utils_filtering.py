@@ -11,13 +11,17 @@ Created on Wed Dec 20 09:32:45 2017
     Packages
 ============================================================================"""
 
-import pandas as pd
+import os
 import json
 import re
-from nltk.stem import SnowballStemmer, WordNetLemmatizer
+import pandas as pd
+
+## NLTK
+from nltk.stem import SnowballStemmer
 from nltk.tokenize import word_tokenize
 
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+## SKLEARN
+from sklearn.feature_extraction.text import CountVectorizer
 
 """============================================================================
     import and write json file
@@ -34,8 +38,7 @@ def import_daily_json(daily_path):
             continue
         continue
     return articles
-
-
+    
 """============================================================================
     fonctions basiques
 ============================================================================"""
@@ -49,32 +52,18 @@ def Contains(pattern, x):
     tokenize and tf_idf
 ============================================================================"""
 
+"""----------------------------------------------
+    List of word
+----------------------------------------------"""
 def get_list_of_words(text):
     # text = text.lower()
     # words_ls = re.findall('\w+', text)
     words_ls = word_tokenize(text)
     return words_ls
 
-
-def lemmatize(text, len_min = 3):
-    """
-        Descr:
-             Lemmatization : Analyse lexicale d'un texte
-             On cherche les différents mots.
-        In:
-            - text (string): text to tokenize
-            - len_min = minimal length of th e words (number of character).
-        Out:
-            - a list of words
-    """
-    lemmatizer = WordNetLemmatizer()
-    words_ls = get_list_of_words(text)
-    lemmes = [lemmatizer.lemmatize(w) for w in words_ls]
-    ## minimal length = 3 letters
-    res_ls = [l for l in lemmes if len(l) >= len_min]
-    return res_ls
-
-
+"""----------------------------------------------
+    Stemming
+----------------------------------------------"""
 
 def stemming(text, len_min = 3):
     """
@@ -87,9 +76,15 @@ def stemming(text, len_min = 3):
         Out:
             - a list of words
     """
-    stemmer = SnowballStemmer(language = 'french', ignore_stopwords = True)
+    
+    ## adaptation of text
+    text = text.lower()
+    text = re.sub('\'', ' ', text)
+    text = re.sub('\.\.+', ' ', text)
+    ## list of words
     words_ls = get_list_of_words(text)
-    ## For each word
+    ## Stemmer object
+    stemmer = SnowballStemmer(language = 'french', ignore_stopwords = True)
     stems = [stemmer.stem(w) for w in words_ls]
     ## minimal length = 3 letters
     res_ls = [s for s in stems if len(s) >= len_min]
@@ -98,14 +93,14 @@ def stemming(text, len_min = 3):
 
 
 """----------------------------------------------
-
+    Term Frequency
 ----------------------------------------------"""
-
 
 def term_frequency(corpus, stop_words = []):
     """
         Descr:
-            From a textual corpus, return tfidf matrix for each words.
+            From a textual corpus, return term freq matrix 
+            for each word in each document.
         In:
             corpus: Series(!!!) of text
             language: language for disable  stopwords
@@ -115,38 +110,9 @@ def term_frequency(corpus, stop_words = []):
     corpus_ls = list(corpus)
     # trans_tf_dfs = []
     countwords = CountVectorizer(tokenizer = stemming)
-    countw_fit = countwords.fit_transform(corpus_ls)
-    resDf = pd.DataFrame(countw_fit.A,
-                         columns = countwords.get_feature_names())
+    cw_fit = countwords.fit_transform(corpus_ls)
+    res_freq = pd.DataFrame(cw_fit.A.transpose(),
+                            index = countwords.get_feature_names())
     # Result
-    return resDf
-
-
-
-
-def tf_idf(corpus, stop_words = []):
-    """
-        Descr:
-            From a textual corpus, return tfidf matrix for each words.
-        In:
-            corpus: Series(!!!) of text
-            language: language for disable  stopwords
-        Out:
-            
-    """
-    corpus_ls = list(corpus)
-    # trans_tf_dfs = []
-    countwords = CountVectorizer(tokenizer = stemming)
-    countw_fit = countwords.fit_transform(corpus_ls) 
-    # TF-IDF
-    tfidf = TfidfTransformer()
-    tfidf_fit = tfidf.fit_transform(countw_fit)
-    ## Matrice tf_idf
-    mat_tfidf = tfidf_fit.todense().transpose()
-    resDf = pd.DataFrame(mat_tfidf,
-                         index = countwords.get_feature_names())
-    # Result
-    return resDf
-
-
+    return res_freq
 
