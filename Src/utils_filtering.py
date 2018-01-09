@@ -14,7 +14,9 @@ Created on Wed Dec 20 09:32:45 2017
 import os
 import json
 import re
+import pandas as pd
 from tqdm import tqdm
+from nltk.stem import SnowballStemmer
 from nltk.tokenize import word_tokenize
 
 ## SKLEARN
