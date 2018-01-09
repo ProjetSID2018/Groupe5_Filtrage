@@ -52,7 +52,7 @@ print('End import !')
 corpus = [articles[iart]['content'] for iart in articles]
 
 ## Stemmatisation
-stems_0 = utils.stemming(corpus[0])
+corpus = corpus[0:5]
 
 ## TF-IDF
 df_tf_idf = utils.tf_idf(corpus)
