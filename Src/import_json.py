@@ -112,7 +112,7 @@ def getNodes(parent):
             
     return list_node
     
- # Lance en place le post tagginf
+ # Lance le post tagging
 def post_ta(text,show=1):  
     words=[]
     postag=[]
