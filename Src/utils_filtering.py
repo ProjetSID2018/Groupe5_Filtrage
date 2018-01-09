@@ -14,11 +14,8 @@ Created on Wed Dec 20 09:32:45 2017
 import pandas as pd
 import json
 import re
-from nltk.corpus import stopwords
-from nltk.corpus import state_union
+from nltk.stem import SnowballStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
-from nltk.stem import PorterStemmer, SnowballStemmer
-from nltk.stem import WordNetLemmatizer
 
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
@@ -26,17 +23,18 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
     import and write json file
 ============================================================================"""
 
-def import_json(file):
-    """ import a json file """
-    with open(file) as data:
-        resjson = json.load(data)
-    return resjson
+def import_daily_json(daily_path):
+    articles = {}
+    for idir in os.listdir(daily_path):
+        xdir = daily_path + '/' + idir
+        for ifile in os.listdir(xdir):
+            iname = re.findall('^(.*?)_robot\.json', ifile)[0]
+            with open(xdir + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
+                articles[iname] = json.load(dict_robot)
+            continue
+        continue
+    return articles
 
-def write_json(dic, file):
-    """ write a json file """
-    with open(file, 'w') as outfile:
-        json.dump(dic, outfile)
-    return None
 
 """============================================================================
     fonctions basiques
@@ -47,25 +45,14 @@ def Contains(pattern, x):
     ok = bool(re.search(str(pattern), str(x)))
     return ok
 
-def BeginsBy(pattern, x):
-    """ Does pattern begin x string ? """
-    ok = Contains('^' + pattern, x)
-    return ok
-
-def EndsBy(pattern, x):
-    """ Does pattern ends x string ? """
-    ok = Contains(pattern + '$', x)
-    return ok
-
-
-
 """============================================================================
     tokenize and tf_idf
 ============================================================================"""
 
 def get_list_of_words(text):
-    text = text.lower()
-    words_ls = re.findall('\w+', text)
+    # text = text.lower()
+    # words_ls = re.findall('\w+', text)
+    words_ls = word_tokenize(text)
     return words_ls
 
 
@@ -114,6 +101,29 @@ def stemming(text, len_min = 3):
 
 ----------------------------------------------"""
 
+
+def term_frequency(corpus, stop_words = []):
+    """
+        Descr:
+            From a textual corpus, return tfidf matrix for each words.
+        In:
+            corpus: Series(!!!) of text
+            language: language for disable  stopwords
+        Out:
+            
+    """
+    corpus_ls = list(corpus)
+    # trans_tf_dfs = []
+    countwords = CountVectorizer(tokenizer = stemming)
+    countw_fit = countwords.fit_transform(corpus_ls)
+    resDf = pd.DataFrame(countw_fit.A,
+                         columns = countwords.get_feature_names())
+    # Result
+    return resDf
+
+
+
+
 def tf_idf(corpus, stop_words = []):
     """
         Descr:
@@ -126,8 +136,7 @@ def tf_idf(corpus, stop_words = []):
     """
     corpus_ls = list(corpus)
     # trans_tf_dfs = []
-    countwords = CountVectorizer(tokenizer = stemming,
-                                 stop_words = stop_words)
+    countwords = CountVectorizer(tokenizer = stemming)
     countw_fit = countwords.fit_transform(corpus_ls) 
     # TF-IDF
     tfidf = TfidfTransformer()
