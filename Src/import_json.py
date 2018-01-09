@@ -97,9 +97,8 @@ def getNodes(parent):
 
     return list_node
 
-    # Lance le post tagging
 
-
+#Adds POS-TAG in a parallel list
 def post_ta(text, show=1):
     words = []
     postag = []
@@ -122,15 +121,6 @@ def post_ta(text, show=1):
         print(words, '\n', postag)
     return words, postag
 
-def generate_i_list(list):
-    i = 0
-    i_list = []
-    for w in list:
-        i_list.append(i)
-        if w == '.':
-            i += 1
-    return i_list
-
 def tagtext(article,stpwds=True):
     art = article.replace('?','.')
     art = art.replace('!','.')
@@ -144,14 +134,12 @@ def tagtext(article,stpwds=True):
     tokenize.remove(')')
     if stpwds:
         w,p = post_ta(' '.join(tokenize), show=0)
-        i = generate_i_list(w)
-        print(w, "\n", p,"\n",i)
-        return w,p,i
+        print(w, "\n", p)
+        return w,p
     else:
         sans_stop_words = [w for w in tokenize if not w in stop_words]
-        i = generate_i_list(sans_stop_words)
-        print(sans_stop_words,"\n", i)
-        return sans_stop_words,i
+        print(sans_stop_words)
+        return sans_stop_words
 
 tagtext(corpus[0])
 
