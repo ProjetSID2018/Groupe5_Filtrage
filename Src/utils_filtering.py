@@ -15,7 +15,7 @@ import os
 import json
 import re
 import pandas as pd
-
+from tqdm import tqdm
 ## NLTK
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import word_tokenize
@@ -29,14 +29,17 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 def import_daily_json(daily_path):
     articles = {}
-    for idir in os.listdir(daily_path):
-        xdir = daily_path + '/' + idir
-        for ifile in os.listdir(xdir):
-            iname = re.findall('^(.*?)_robot\.json', ifile)[0]
-            with open(xdir + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
-                articles[iname] = json.load(dict_robot)
+    length = len(os.listdir(daily_path))
+    with tqdm(total=length) as pbar:
+        for idir in os.listdir(daily_path):
+            xdir = daily_path + '/' + idir
+            for ifile in os.listdir(xdir):
+                iname = re.findall('^(.*?)_robot\.json', ifile)[0]
+                with open(xdir + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
+                    articles[iname] = json.load(dict_robot)
+                continue
+            pbar.update()
             continue
-        continue
     return articles
     
 """============================================================================
