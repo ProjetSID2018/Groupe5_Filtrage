@@ -16,6 +16,7 @@ import json
 import re
 import pandas as pd
 from tqdm import tqdm
+## NLTK
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import word_tokenize
 
