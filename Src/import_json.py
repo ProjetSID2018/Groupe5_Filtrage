@@ -13,6 +13,7 @@ import re
 import json
 from nltk.stem import SnowballStemmer
 from sklearn.feature_extraction.text import CountVectorizer
+from nltk.stem.snowball import FrenchStemmer
 
 import utils_filtering as utils
 
@@ -125,23 +126,30 @@ def tagtext(article,stpwds=True):
     art = article.replace('?','.')
     art = art.replace('!','.')
     art = art.replace('…','.')
-    art = art.replace('’', ' ')
+    art = re.sub(r'[A-Za-z]’',' ',art)
+    art = re.sub(r'[A-Za-z]\'',' ',art)
     art = re.sub(r'[^\w\s\._]','',art, re.UNICODE)
 
      # Tokenisation without ponctuation
     tokenize = word_tokenize(art)
     tokenize.remove('(')
     tokenize.remove(')')
+    stemmer = FrenchStemmer()
+    s = []
+    for w in tokenize:
+        s.append(stemmer.stem(w))
     if stpwds:
         w,p = post_ta(' '.join(tokenize), show=0)
-        print(w, "\n", p)
-        return w,p
+        print(w, "\n", p,"\n",s)
+        return w,p,s
     else:
         sans_stop_words = [w for w in tokenize if not w in stop_words]
-        print(sans_stop_words)
-        return sans_stop_words
+        print(sans_stop_words,"\n",s)
+        return sans_stop_words,s
 
-tagtext(corpus[0])
+
+
+tagtext(articles["artfusc1362018-01-08"]['content'])
 
 """============================================================================
     write json
