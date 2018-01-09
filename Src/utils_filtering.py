@@ -16,7 +16,7 @@ import json
 import re
 import pandas as pd
 from tqdm import tqdm
-## NLTK
+from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import word_tokenize
 
@@ -28,14 +28,24 @@ from sklearn.feature_extraction.text import CountVectorizer
 ============================================================================"""
 
 def import_daily_json(daily_path):
+    """
+        Descr:
+             Import a panel of articles according to the server structure :
+                 daily_path / newpaper / article
+        In:
+            - daily_path : a string which corresponds to the localisation
+        Out:
+            - articles : a dict of articles
+    """
+    ## Initiation
     articles = {}
     length = len(os.listdir(daily_path))
     with tqdm(total=length) as pbar:
-        for idir in os.listdir(daily_path):
-            xdir = daily_path + '/' + idir
-            for ifile in os.listdir(xdir):
+        for inewspaper in os.listdir(daily_path):
+            xdirpaper = daily_path + '/' + inewspaper
+            for ifile in os.listdir(xdirpaper):
                 iname = re.findall('^(.*?)_robot\.json', ifile)[0]
-                with open(xdir + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
+                with open(xdirpaper + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
                     articles[iname] = json.load(dict_robot)
                 continue
             pbar.update()
@@ -56,50 +66,37 @@ def Contains(pattern, x):
 ============================================================================"""
 
 """----------------------------------------------
-    List of word
-----------------------------------------------"""
-def get_list_of_words(text):
-    # text = text.lower()
-    # words_ls = re.findall('\w+', text)
-    words_ls = word_tokenize(text)
-    return words_ls
-
-"""----------------------------------------------
     Stemming
 ----------------------------------------------"""
 
-def stemming(text, len_min = 3):
+def stemming(text):
     """
         Descr:
              Stemmatisation : Analyse lexicale d'un texte
-             On cherche les différents mots.
         In:
-            - text (string): text to tokenize
-            - len_min = minimal length of th e words (number of character).
+            - text (string): text to lemmatize
         Out:
-            - a list of words
+            - stems : a list of words
     """
-    
     ## adaptation of text
     text = text.lower()
     text = re.sub('\'', ' ', text)
     text = re.sub('\.\.+', ' ', text)
     ## list of words
-    words_ls = get_list_of_words(text)
+    words_ls = word_tokenize(text)
     ## Stemmer object
-    stemmer = SnowballStemmer(language = 'french', ignore_stopwords = True)
-    stems = [stemmer.stem(w) for w in words_ls]
-    ## minimal length = 3 letters
-    res_ls = [s for s in stems if len(s) >= len_min]
-    ## Result : list of words
-    return res_ls
+    stop_words = stopwords.words('french')
+    stemmer = SnowballStemmer(language = 'french')
+    stems = [stemmer.stem(w) for w in words_ls if not w in stop_words]
+    ## Result : list of stems words
+    return stems
 
 
 """----------------------------------------------
     Term Frequency
 ----------------------------------------------"""
 
-def term_frequency(corpus, stop_words = []):
+def term_frequency(corpus):
     """
         Descr:
             From a textual corpus, return term freq matrix 
