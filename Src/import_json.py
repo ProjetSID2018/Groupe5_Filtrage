@@ -12,8 +12,10 @@ import os
 import re
 import json
 from nltk.stem import SnowballStemmer
-import utils_filtering as utils
 from sklearn.feature_extraction.text import CountVectorizer
+
+import utils_filtering as utils
+
 """============================================================================
     links
 ============================================================================"""
@@ -29,20 +31,7 @@ path_target = '../data/target_press_article'
     import json
 ============================================================================"""
 
-articles = {}
-
-for idir in os.listdir(path_source):
-    xdir = path_source + '/' + idir
-    for ifile in os.listdir(xdir):
-        iname = re.findall('^(.*?)_robot\.json', ifile)[0]
-        
-        ## IMPORT JSON :
-        with open(xdir + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
-            articles[iname] = json.load(dict_robot)
-            
-        continue
-    continue
-print('End import !')
+articles = utils.import_daily_json(path_source)
 
 """============================================================================
     traitement
@@ -51,16 +40,69 @@ print('End import !')
 ## Get Corpus
 corpus = [articles[iart]['content'] for iart in articles]
 
-## Stemmatisation
-corpus = corpus[0:5]
-
 ## TF-IDF
-df_tf_idf = utils.tf_idf(corpus)
-df_tf_idf.columns = list(articles)
+df_freq = utils.term_frequency(corpus)
+df_freq.columns = list(articles)
 
-dict_filtering = df_tf_idf.to_dict()
+dict_filtering = df_freq.to_dict()
+
 
 print('End Traitement !')
+
+
+"""============================================================================
+    Post tagging
+============================================================================"""
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+from nltk import ne_chunk, pos_tag
+from nltk.tree import Tree
+
+example_sentence = "bonjour, tous le monde vas bien? J'espere que oui."
+
+ # Création de la liste de stop words
+stop_words = set(stopwords.words('french'))
+
+ # Tokenisation sans ponctuation
+tokenize_avec_ponctu = word_tokenize(example_sentence)
+tokenize= [w for w in tokenize_avec_ponctu if not w in [',','?',';','.',':','!','+','*','>','<','&','~','#','{','}','(',')','[',']','|','°','=','$','£','¤','%','µ','§']]
+
+ # Supprime les stops words
+sans_stop_words = [w for w in tokenize if not w in stop_words]
+
+ # Permet le post tagging
+ # Chunk permet d'avoir les entitées nommée.
+def get_continuous_chunks(text): # code pris sur stack overflow (améliorable)
+     chunked = ne_chunk(pos_tag(word_tokenize(text)))
+     prev = None
+     continuous_chunk = []
+     current_chunk = []
+     for i in chunked:
+             if type(i) == Tree:
+                     current_chunk.append(" ".join([token for token, pos in i.leaves()]))
+             elif current_chunk:
+                     named_entity = " ".join(current_chunk)
+                     if named_entity not in continuous_chunk:
+                             continuous_chunk.append(named_entity)
+                             current_chunk = []
+             else:
+                     continue
+     return continuous_chunk
+ 
+def post_ta(text,show=1):  
+    words=[]
+    postag=[]
+    for i in ne_chunk(pos_tag(word_tokenize(text))): 
+        words.append(i[0])
+        postag.append(i[1])
+    if show >0:
+        print(words,'\n',postag)
+    return words,postag
+
+post_ta(' '.join(sans_stop_words),show=0)
 
 """============================================================================
     write json
