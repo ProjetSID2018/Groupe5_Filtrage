@@ -17,7 +17,7 @@ import re
 import pandas as pd
 from tqdm import tqdm
 from nltk.corpus import stopwords
-from nltk.stem import SnowballStemmer
+from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 
 ## SKLEARN
@@ -36,21 +36,26 @@ def import_daily_json(daily_path):
             - daily_path : a string which corresponds to the localisation
         Out:
             - articles : a dict of articles
+
     """
     ## Initiation
     articles = {}
-    length = len(os.listdir(daily_path))
-    with tqdm(total=length) as pbar:
-        for inewspaper in os.listdir(daily_path):
-            xdirpaper = daily_path + '/' + inewspaper
-            for ifile in os.listdir(xdirpaper):
+    newspaper_ls = os.listdir(daily_path)
+    ## For each inewspaper
+    for inewspaper in newspaper_ls:
+        xdirpaper = daily_path + '/' + inewspaper
+        files_ls = os.listdir(xdirpaper)
+        with tqdm(desc=inewspaper, total=len(files_ls)) as fbar:
+            ## Boucle : For each file
+            for ifile in files_ls:
                 iname = re.findall('^(.*?)_robot\.json', ifile)[0]
+                ## Import Json
                 with open(xdirpaper + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
                     articles[iname] = json.load(dict_robot)
+                fbar.update()
                 continue
-            pbar.update()
-            continue
     return articles
+    
     
 """============================================================================
     fonctions basiques
@@ -64,7 +69,6 @@ def Contains(pattern, x):
 """============================================================================
     tokenize and tf_idf
 ============================================================================"""
-
 """----------------------------------------------
     Stemming
 ----------------------------------------------"""
@@ -86,11 +90,10 @@ def stemming(text):
     words_ls = word_tokenize(text)
     ## Stemmer object
     stop_words = stopwords.words('french')
-    stemmer = SnowballStemmer(language = 'french')
+    stemmer = PorterStemmer()
     stems = [stemmer.stem(w) for w in words_ls if not w in stop_words]
     ## Result : list of stems words
     return stems
-
 
 """----------------------------------------------
     Term Frequency
