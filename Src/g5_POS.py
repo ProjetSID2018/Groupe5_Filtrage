@@ -1,11 +1,12 @@
 import nltk
 from nltk import ne_chunk, pos_tag
 from nltk.tokenize import word_tokenize
+from g5_stopwords import  get_stopwords
+stop_words = get_stopwords()
 
 
 #Goes through the POS-TAG tree if Tree not a tuple
 def getNodes(parent):
-    ROOT = 'ROOT'
     list_node = []
     for node in parent:
         if type(node) is nltk.Tree:
