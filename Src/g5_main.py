@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """============================================================================
 Created on Thu Dec 21 15:52:59 2017
-
-@author: Cedric
+@group: Groupe 5 - Filtrage
+@author: Cedric, Paul, Adrien
 
 Par rapport à la version 1-1 :
 - Importation : Adaptation a l'architecture du serveur
@@ -18,7 +18,7 @@ from g5_import_json import write_jsons
 ============================================================================"""
 
 ## LIEN SUR LE SERVEUR
-# path_input = '/var/www/html/projet2018/data/clean/robot
+# path_source = '/var/www/html/projet2018/data/clean/robot
 # path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 path_source = '../Data/source_press_article'

@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 """============================================================================
+-*- coding: utf-8 -*-
 Created on Tue Jan  9 15:45:27 2018
-
+@group: Groupe 5 - Filtrage
 @author: Cedric
 
 Function : import and write json
@@ -47,11 +47,9 @@ def import_daily_json(path_source):
                 continue
     return articles
 
-
 """-------------------------------------
     Write Json
 -------------------------------------"""
-
 def write_jsons(dict_filtering, path_target):
     """
         Descr:

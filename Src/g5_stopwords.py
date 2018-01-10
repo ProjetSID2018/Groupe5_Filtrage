@@ -1,3 +1,11 @@
+"""============================================================================
+-*- coding: utf-8 -*-
+Created on Tue Jan 10 2018
+@group: Groupe 5 - Filtrage
+@author: Elise Benois
+
+Function : Get list of stop-words
+============================================================================"""
 import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
