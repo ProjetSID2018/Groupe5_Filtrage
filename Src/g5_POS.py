@@ -10,8 +10,8 @@ import nltk
 from nltk import ne_chunk, pos_tag
 from nltk.tokenize import word_tokenize
 from g5_stopwords import  get_stopwords
-stop_words = get_stopwords()
 
+stop_words = get_stopwords()
 #Goes through given POS-TAG tree if Tree not a tuple and returns a list of all word/tag combinations
 def getNodes(parent):
     list_node = []
@@ -25,7 +25,7 @@ def getNodes(parent):
 
 
 #Adds POS-Tag in a parallel list
-def pos_tagging(text, show=1):
+def pos_tagging(text, stop_words = [], show=1):
     words = []
     postag = []
     #tags Named Entities and adds POS-Tags to a tokenized text
@@ -47,6 +47,7 @@ def pos_tagging(text, show=1):
                 postag.append('STOPWORD')
             else:
                 postag.append(i[1])
+        continue
     #simple option to checkup on the text when the tagging is done
     if show > 0:
         print(words, '\n', postag)
