@@ -10,7 +10,8 @@ Par rapport à la version 1-1 :
 
 
 import json
-import g5_utils_filtering as utils
+from g5_import_json import import_daily_json
+from g5_import_json import write_jsons
 
 """============================================================================
     links
@@ -27,7 +28,7 @@ path_target = '../Data/target_press_article'
     import json
 ============================================================================"""
 
-articles = utils.import_daily_json(path_source)
+articles = import_daily_json(path_source)
 
 """============================================================================
     traitement
@@ -82,17 +83,13 @@ def tagtext(article,stpwds=True):
 
 
 
-tagtext(articles["artfusc1362018-01-08"]['content'])
+content = tagtext(articles["artfusc1362018-01-08"]['content'])
 
 """============================================================================
     write json
 ============================================================================"""
 
-for d in dict_filtering:
-    idict = dict_filtering[d]
-    ifile = d + '_filtering.json'
-    with open(path_target + '/' + ifile, 'w', encoding = 'utf-8') as outfile:
-        json.dump(idict, outfile)
+write_jsons(content,path_target)
 
 print('End writing !')
 
