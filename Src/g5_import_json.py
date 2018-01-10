@@ -8,14 +8,9 @@ Par rapport à la version 1-1 :
 - Importation : Adaptation a l'architecture du serveur
 ============================================================================"""
 
-import os
-import re
-import json
-from nltk.stem import SnowballStemmer
-from sklearn.feature_extraction.text import CountVectorizer
-from nltk.stem.snowball import FrenchStemmer
 
-import utils_filtering as utils
+import json
+import g5_utils_filtering as utils
 
 """============================================================================
     links
@@ -54,92 +49,15 @@ print('End Traitement !')
 """============================================================================
     Post tagging
 ============================================================================"""
-
-import nltk
 from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-nltk.download('stopwords')
-from nltk import ne_chunk, pos_tag
-from nltk.tree import Tree
+from g5_stopwords import  get_stopwords
+from g5_clean_text import clean_symbols
+from g5_stemming import nltk_stemming
+from g5_POS import pos_tagging
 
-# Création de la liste de stop words
-stop_words = set(stopwords.words('french'))
+# Generating  stopwords
+stop_words = get_stopwords()
 
-# Permet le post tagging
- # Chunk permet d'avoir les entitées nommée.
-def get_continuous_chunks(text): # code pris sur stack overflow (améliorable)
-     chunked = ne_chunk(pos_tag(word_tokenize(text)))
-     prev = None
-     continuous_chunk = []
-     current_chunk = []
-     for i in chunked:
-             if type(i) == Tree:
-                     current_chunk.append(" ".join([token for token, pos in i.leaves()]))
-             elif current_chunk:
-                     named_entity = " ".join(current_chunk)
-                     if named_entity not in continuous_chunk:
-                             continuous_chunk.append(named_entity)
-                             current_chunk = []
-             else:
-                     continue
-     return continuous_chunk
-
-
-
-#Goes through the POS-TAG tree if Tree not a tuple
-def getNodes(parent):
-    ROOT = 'ROOT'
-    list_node = []
-    for node in parent:
-        if type(node) is nltk.Tree:
-            getNodes(node)
-        else:
-            list_node.append(node)
-
-    return list_node
-
-
-#Adds POS-TAG in a parallel list
-def post_ta(text, show=1):
-    words = []
-    postag = []
-    for i in ne_chunk(pos_tag(word_tokenize(text))):
-        if type(i) is nltk.Tree:
-            lst_nde = getNodes(i)
-            for n in lst_nde:
-                words.append(n[0])
-                if (n[0] in stop_words):
-                    postag.append('STOPWORD')
-                else:
-                    postag.append(n[1])
-        else:
-            words.append(i[0])
-            if (i[0] in stop_words):
-                postag.append('STOPWORD')
-            else:
-                postag.append(i[1])
-    if show > 0:
-        print(words, '\n', postag)
-    return words, postag
-
-
-# Tokenisation without ponctuation
-def clean_symbols(text):
-    art = text.replace('?', '.')
-    art = art.replace('!', '.')
-    art = art.replace('…', '.')
-    art = re.sub(r'[A-Za-z]’', ' ', art)
-    art = re.sub(r'[A-Za-z]\'', ' ', art)
-    art = re.sub(r'[^\w\s\._]', '', art, re.UNICODE)
-    return art
-
-
-def nltk_stemming(l_token):
-    stemmer = FrenchStemmer()
-    s = []
-    for w in l_token:
-        s.append(stemmer.stem(w))
-    return s
 
 def tagtext(article,stpwds=True):
     #remove punctuation
@@ -154,7 +72,7 @@ def tagtext(article,stpwds=True):
     s = nltk_stemming(tokenize)
 
     if stpwds:
-        w,p = post_ta(' '.join(tokenize), show=0)
+        w,p = pos_tagging(' '.join(tokenize), show=0)
         print(w, "\n", p,"\n",s)
         return w,p,s
     else:
