@@ -34,8 +34,12 @@ def import_daily_json(path_source):
     newspaper_ls = os.listdir(path_source)
     ## For each inewspaper
     for inewspaper in newspaper_ls:
+        print(type(inewspaper),inewspaper)
+        #if not inewspaper.startswith('.'):
         xdirpaper = path_source + '/' + inewspaper
         files_ls = os.listdir(xdirpaper)
+        #else:
+            #continue
         with tqdm(desc=inewspaper, total=len(files_ls)) as fbar:
             ## Boucle : For each file
             for ifile in files_ls:

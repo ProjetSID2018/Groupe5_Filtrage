@@ -8,6 +8,7 @@ Function : Get list of stop-words
 ============================================================================"""
 import nltk
 import json
+import numpy as np
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 import spacy
@@ -21,8 +22,6 @@ json_data.close()
 
 articles = {}
 art = data['content']
-
-#art = "jusqu'il Jean Michel l'abruti l tueur de Madame Girard a"
 
 # ENLEVER LES TIRETS DANS LE TEXTE
 
@@ -50,8 +49,10 @@ list_stopwords = []
 for find_stopwords in b:
     if find_stopwords.is_stop is True:
         list_stopwords.extend([find_stopwords])
-type(list_stopwords[1])
-list_stopwords = list(set(list_stopwords))
-    print(str(list_stopwords[1]))
+for i in range(len(list_stopwords)):
+   list_stopwords[i] = str(list_stopwords[i])
+print(list(set(list_stopwords)))
 
-
+#tf
+unique, counts = np.unique(b, return_counts=True)
+print(unique, counts)
