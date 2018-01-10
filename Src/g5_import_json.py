@@ -152,7 +152,7 @@ def tagtext(article,stpwds=True):
     tokenize.remove(')')
     #lemmatisation
     s = nltk_stemming(tokenize)
-    
+
     if stpwds:
         w,p = post_ta(' '.join(tokenize), show=0)
         print(w, "\n", p,"\n",s)
