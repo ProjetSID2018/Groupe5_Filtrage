@@ -122,22 +122,37 @@ def post_ta(text, show=1):
         print(words, '\n', postag)
     return words, postag
 
-def tagtext(article,stpwds=True):
-    art = article.replace('?','.')
-    art = art.replace('!','.')
-    art = art.replace('…','.')
-    art = re.sub(r'[A-Za-z]’',' ',art)
-    art = re.sub(r'[A-Za-z]\'',' ',art)
-    art = re.sub(r'[^\w\s\._]','',art, re.UNICODE)
 
-     # Tokenisation without ponctuation
-    tokenize = word_tokenize(art)
-    tokenize.remove('(')
-    tokenize.remove(')')
+# Tokenisation without ponctuation
+def clean_symbols(text):
+    art = text.replace('?', '.')
+    art = art.replace('!', '.')
+    art = art.replace('…', '.')
+    art = re.sub(r'[A-Za-z]’', ' ', art)
+    art = re.sub(r'[A-Za-z]\'', ' ', art)
+    art = re.sub(r'[^\w\s\._]', '', art, re.UNICODE)
+    return art
+
+
+def nltk_stemming(l_token):
     stemmer = FrenchStemmer()
     s = []
-    for w in tokenize:
+    for w in l_token:
         s.append(stemmer.stem(w))
+    return s
+
+def tagtext(article,stpwds=True):
+    #remove punctuation
+    art = clean_symbols(article)
+
+    #tokenize text
+    tokenize = word_tokenize(art)
+    #For parenthesis that are stuck to text
+    tokenize.remove('(')
+    tokenize.remove(')')
+    #lemmatisation
+    s = nltk_stemming(tokenize)
+    
     if stpwds:
         w,p = post_ta(' '.join(tokenize), show=0)
         print(w, "\n", p,"\n",s)
