@@ -1,121 +1,76 @@
 # -*- coding: utf-8 -*-
 """============================================================================
-Created on Wed Dec 20 09:32:45 2017
+Created on Tue Jan  9 15:45:27 2018
 
-@author: Cedric Bezy
+@author: Cedric
 
-============================================================================"""
-
-
-"""============================================================================
-    Packages
+Function : import and write json
 ============================================================================"""
 
 import os
-import json
 import re
-import pandas as pd
+import json
 from tqdm import tqdm
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-from nltk.tokenize import word_tokenize
-
-## SKLEARN
-from sklearn.feature_extraction.text import CountVectorizer
 
 """============================================================================
-    import and write json file
+    Functions
 ============================================================================"""
-
-def import_daily_json(daily_path):
+"""-------------------------------------
+    Import Json
+-------------------------------------"""
+def import_daily_json(path_source):
     """
         Descr:
              Import a panel of articles according to the server structure :
-                 daily_path / newpaper / article
+                 path_source / newpaper / article
         In:
-            - daily_path : a string which corresponds to the localisation
+            - path_source : a string which corresponds to the localisation
         Out:
             - articles : a dict of articles
 
     """
     ## Initiation
     articles = {}
-    newspaper_ls = os.listdir(daily_path)
+    newspaper_ls = os.listdir(path_source)
     ## For each inewspaper
     for inewspaper in newspaper_ls:
-        xdirpaper = daily_path + '/' + inewspaper
+        xdirpaper = path_source + '/' + inewspaper
         files_ls = os.listdir(xdirpaper)
         with tqdm(desc=inewspaper, total=len(files_ls)) as fbar:
             ## Boucle : For each file
             for ifile in files_ls:
-                iname = re.findall('^(.*?)_robot\.json', ifile)[0]
+                iname = re.findall('^(.*?)_robot.json', ifile)[0]
                 ## Import Json
                 with open(xdirpaper + '/' + ifile, 'r', encoding = 'utf-8') as dict_robot:
                     articles[iname] = json.load(dict_robot)
                 fbar.update()
                 continue
     return articles
-    
-    
-"""============================================================================
-    fonctions basiques
-============================================================================"""
 
-def Contains(pattern, x):
-    """ Is a pattern contained in x string ? """
-    ok = bool(re.search(str(pattern), str(x)))
-    return ok
 
-"""============================================================================
-    tokenize and tf_idf
-============================================================================"""
-"""----------------------------------------------
-    Stemming
-----------------------------------------------"""
+"""-------------------------------------
+    Write Json
+-------------------------------------"""
 
-def stemming(text):
+def write_jsons(dict_filtering, path_target):
     """
         Descr:
-             Stemmatisation : Analyse lexicale d'un texte
+             write filtering jsons
         In:
-            - text (string): text to lemmatize
-        Out:
-            - stems : a list of words
+            - dict_filtering : dictoinnary which contains a sub-dictionnary
+                for each article.
+            - path_target : a string which corresponds to the directory
+                where json files must be writter
+        Out :
+            no result
     """
-    ## adaptation of text
-    text = text.lower()
-    text = re.sub('\'', ' ', text)
-    text = re.sub('\.\.+', ' ', text)
-    ## list of words
-    words_ls = word_tokenize(text)
-    ## Stemmer object
-    stop_words = stopwords.words('french')
-    stemmer = PorterStemmer()
-    stems = [stemmer.stem(w) for w in words_ls if not w in stop_words]
-    ## Result : list of stems words
-    return stems
-
-"""----------------------------------------------
-    Term Frequency
-----------------------------------------------"""
-
-def term_frequency(corpus):
-    """
-        Descr:
-            From a textual corpus, return term freq matrix 
-            for each word in each document.
-        In:
-            corpus: Series(!!!) of text
-            language: language for disable  stopwords
-        Out:
-            
-    """
-    corpus_ls = list(corpus)
-    # trans_tf_dfs = []
-    countwords = CountVectorizer(tokenizer = stemming)
-    cw_fit = countwords.fit_transform(corpus_ls)
-    res_freq = pd.DataFrame(cw_fit.A.transpose(),
-                            index = countwords.get_feature_names())
-    # Result
-    return res_freq
-
+    n_art = len(dict_filtering)
+    with tqdm(desc = 'Writing', total = n_art) as fbar:
+        for d in dict_filtering:
+            idict = dict_filtering[d]
+            ifile = d + '_filtering.json'
+            with open(path_target + '/' + ifile, 'w', encoding = 'utf-8') as outfile:
+                json.dump(idict, outfile)
+            fbar.update()
+            continue
+    return None
