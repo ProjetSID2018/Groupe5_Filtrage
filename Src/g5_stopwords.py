@@ -7,10 +7,10 @@ Created on Tue Jan 10 2018
 Function : Get list of stop-words
 ============================================================================"""
 
-import numpy as np
-from nltk.corpus import stopwords
 # nltk.download('stopwords')
 import spacy
+from nltk.corpus import stopwords
+
 
 def get_stopwords():
     return set(stopwords.words('french'))
