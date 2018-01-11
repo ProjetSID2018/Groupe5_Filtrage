@@ -67,7 +67,7 @@ for uk, ct in zip(unique, counts):
     continue
     '''
 
-tf(b)
+#tf(b)
 
 # Join the list of stop_words
 def get_stopwords_test():

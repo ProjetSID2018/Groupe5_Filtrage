@@ -21,7 +21,7 @@ from Src.g5_integration import make_dict_filtering
 # path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 # LIEN SUR GITHUB
-path_source = '../Data/source_press_article/2018-01-08'
+path_source = '../Data/source_press_article/'
 path_target = '../Data/target_press_article'
 
 # Import Jsons

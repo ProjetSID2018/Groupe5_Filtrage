@@ -74,9 +74,12 @@ def tokeniz(article):  # Tokenize with library Spacy
 def analys_token(art_token, entity, entity_, with_stopwords=True):
     info_token = {}
     words = []
+    lemma = []
     i = 1
     for token in art_token:
         words.append(token.text)
+        lemma.append(str(token.lemma_))
+
         if str(token.text) not in stop_words:
             tag = 'STOPWORD'
         else:
@@ -84,15 +87,16 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
 
         if str(token) in entity_.keys() and with_stopwords:
             info_token[i] = {'word': token.text, 'lemma': token.lemma_,
-                      'pos.tag': tag,
-                      'is.entity': entity[str(token)][-1]}
+                      'pos_tag': tag,
+                      'type_entity': entity_[str(token)][-1], 'title': False}
         elif with_stopwords:
             info_token[i] = {'word': token.text, 'lemma': token.lemma_,
-                      'pos.tag': tag,
-                      'is.entity': 'Null'}
+                      'pos_tag': tag,
+                      'type_entity': 'Null', 'title': False}
         elif str(token.text) not in stop_words:
             info_token[i] = {'word': token.text, 'lemma': token.lemma_}
         i += 1
     if with_stopwords:
         info_token['words'] = words
+        info_token['lemma'] = ' '.join(lemma)
     return info_token

@@ -8,9 +8,10 @@ Function : Get list of stemmed words from tokenized text
 ============================================================================"""
 from nltk.stem.snowball import FrenchStemmer
 
+
 def nltk_stemming(l_token):
     stemmer = FrenchStemmer()
-    s = []
+    stems = []
     for w in l_token:
-        s.append(stemmer.stem(w))
-    return s
+        stems.append(stemmer.stem(w))
+    return stems
