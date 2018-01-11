@@ -6,33 +6,36 @@ Created on Tue Jan 10 2018
 
 Function : Get list of stop-words
 ============================================================================"""
-
-# nltk.download('stopwords')
 import spacy
 import json
 import numpy as np
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-json_data = open('/Users/Elise/Groupe5_Filtrage_bis/Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
+json_data = open('../Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
 
-#a changer par le code ci-dessous parce que probleme on ne sait pas pk
-#json_data = open('../Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
+nltk.download('stopwords')
 
-
+def get_stopwords():
+    return set(stopwords.words('french'))
+'''
+json_data = open('../Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
 data = json.load(json_data)
 json_data.close()
 
 articles = {}
 art = data['content']
+'''
+
 
 # tokeniz with spacy
 def tokeniz(article):
-    nlp = spacy.load('fr')
-    doc = nlp(article)
-    return doc
-b = tokeniz(art)
-b[2]
+   nlp = spacy.load('fr')
+   doc = nlp(article)
+   return doc
+
+b = tokeniz(art)   
 
 def rec_entity(article):
     i = 0
@@ -41,23 +44,24 @@ def rec_entity(article):
         Ent[i] = [entity.text, entity.label_]
         i += 1
     return Ent
-
+'''
 rec_entity(b)
 
 # tf
-def tf(b):
-    a = []
-    for i in range(len(b)):
-        a.append(str(b[i]))
-    unique, counts = np.unique(a, return_counts=True)
-    dict_words = {}
-    for uk, ct in zip(unique, counts):
-        sum_words = np.sum(counts)
-        dict_words[uk] = ct/sum_words
-        continue
-    return dict_words
 
-tf(b)
+a = []
+for i in range(len(b)):
+    a.append(str(b[i]))
+    
+unique, counts = np.unique(a, return_counts=True)
+dict_words = {}
+for uk, ct in zip(unique, counts):
+    sum_words = np.sum(counts)
+    dict_words[uk] = ct/sum_words
+    continue
+    '''
+
+#tf(b)
 
 # List of stop_words
 def get_stopwords():
@@ -86,7 +90,3 @@ for i in lettre:
 
 stop_words = np.unique(stop_words)
 
-sans_stop_words = []
-for w in b:
-    if str(w) not in stop_words:
-        sans_stop_words.append(str(w))

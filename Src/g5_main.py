@@ -21,14 +21,14 @@ from Src.g5_integration import make_dict_filtering
 # path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 # LIEN SUR GITHUB
-path_source = '../Data/source_press_article'
+path_source = '../Data/source_press_article/'
 path_target = '../Data/target_press_article'
 
 # Import Jsons
 articles = import_daily_jsons(path_source)
-
+newdict = {key:articles[key] for key in ['artfusc10002018-01-08','artfusc10012018-01-08','artfusc1002018-01-08']}
 # Treatment
-dict_filtering = make_dict_filtering(articles)
+dict_filtering = make_dict_filtering(newdict)
 
 # Writing
 write_filtering_jsons(dict_filtering, path_target)

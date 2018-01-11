@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
 @group: Groupe 5 - Filtrage
-@author: Adrien Caminade, Paul Lafaurie and Stackoverflow
+@author: Adrien Caminade, Paul Lafaurie and Stackoverflow, Clément BRANDAO
 
 Function : Get named entities from text
 ============================================================================"""
@@ -38,3 +38,12 @@ def get_continuous_chunks(text):
                 continue
     # Out: list of NE identified by NLTK
     return continuous_chunk
+
+
+def recognize_entity(article):  # Unique named entity version
+    Ent = {}
+    Ent_und = {}
+    for entity in article.ents:
+        Ent[entity.text] = [entity.start_char, entity.end_char, entity.label_]
+        Ent_und[entity.text.replace(" ", "_")] = entity.label_
+    return Ent, Ent_und

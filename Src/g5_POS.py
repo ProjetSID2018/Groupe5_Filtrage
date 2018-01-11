@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
 @group: Groupe 5 - Filtrage
-@author: Paul Lafaurie
+@author: Paul Lafaurie, Clément BRANDAO
 
 Function : Get Part-of-Speech Tags for every word
 ============================================================================"""
@@ -10,8 +10,9 @@ import nltk
 from nltk import ne_chunk, pos_tag
 from nltk.tokenize import word_tokenize
 from Src.g5_stopwords import get_stopwords
+import spacy
 
-#Global variable, used many times and only needs to be loaded once
+# Global variable, used many times and only needs to be loaded once
 stop_words = get_stopwords()
 
 # Goes through given POS-TAG tree if Tree not a tuple and returns a list of
@@ -29,8 +30,8 @@ def getNodes(parent):
     return list_node
 
 
-#Adds POS-Tag in a parallel list
-def pos_tagging(text, stop_words = [], show=1):
+# Adds POS-Tag in a parallel list
+def pos_tagging(text, stop_words=[], show=1):
     words = []
     postag = []
 
@@ -61,3 +62,42 @@ def pos_tagging(text, stop_words = [], show=1):
         print(words, '\n', postag)
 
     return words, postag
+
+
+def tokeniz(article):  # Tokenize with library Spacy
+    simple_art = article.replace("'", " ")
+    nlp = spacy.load('fr')
+    doc = nlp(simple_art)
+    return doc
+
+
+def analys_token(art_token, entity, entity_, with_stopwords=True):
+    info_token = {}
+    words = []
+    lemma = []
+    i = 1
+    for token in art_token:
+        words.append(token.text)
+        lemma.append(token.lemma_)
+
+        if str(token.text) not in stop_words:
+            tag = 'STOPWORD'
+        else:
+            tag = token.pos_
+
+        if str(token) in entity_.keys() and with_stopwords:
+            info_token[i] = {'word': token.text, 'lemma': token.lemma_,
+                      'pos_tag': tag,
+                      'type_entity': entity_[str(token)][-1], 'title': False}
+        elif with_stopwords:
+            info_token[i] = {'word': token.text, 'lemma': token.lemma_,
+                      'pos_tag': tag,
+                      'type_entity': 'Null', 'title': False}
+        elif str(token.text) not in stop_words:
+            info_token[i] = {'word': token.text, 'lemma': token.lemma_}
+        i += 1
+    if with_stopwords:
+        info_token['words'] = words
+        info_token['list_lemma'] = lemma
+
+    return info_token
