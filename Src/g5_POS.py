@@ -11,7 +11,9 @@ from nltk import ne_chunk, pos_tag
 from nltk.tokenize import word_tokenize
 from g5_stopwords import  get_stopwords
 
+#Global variable, used many times and only needs to be loaded once
 stop_words = get_stopwords()
+
 #Goes through given POS-TAG tree if Tree not a tuple and returns a list of all word/tag combinations
 def getNodes(parent):
     list_node = []
@@ -25,7 +27,7 @@ def getNodes(parent):
 
 
 #Adds POS-Tag in a parallel list
-def pos_tagging(text, stop_words = [], show=1):
+def pos_tagging(text, show=1):
     words = []
     postag = []
     #tags Named Entities and adds POS-Tags to a tokenized text

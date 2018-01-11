@@ -10,6 +10,11 @@ from nltk import ne_chunk, pos_tag
 from nltk.tree import Tree
 from nltk.tokenize import word_tokenize
 
+import spacy
+nlp = spacy.load('fr_core_news_sm')
+doc = nlp(u"C'est une phrase.")
+print([(w.text, w.pos_) for w in doc])
+
 #Returns named entities identified by nltk in the @param:text
 #Copy/Pasted from Stackoverflow (not used for now)
 def get_continuous_chunks(text):

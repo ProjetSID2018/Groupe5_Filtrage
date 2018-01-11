@@ -29,12 +29,13 @@ path_target = '../Data/target_press_article'
 """============================================================================
     import json
 ============================================================================"""
-
+#Global variable, used many times and only needs to be loaded once
+stop_words = get_stopwords()
 # articles = import_daily_json(path_source)
 
 # text_init = articles[list(articles)[0]]['content']
 
-def tag_text(article, stop_words = get_stopwords(), stpwds = True):
+def tag_text(article, stpwds = True):
     #remove punctuation
     art = clean_symbols(article)
     #tokenize text
@@ -48,7 +49,7 @@ def tag_text(article, stop_words = get_stopwords(), stpwds = True):
     s = nltk_stemming(tokenize)
 
     if stpwds:
-        w,p = pos_tagging(' '.join(tokenize), stop_words, show=0)
+        w,p = pos_tagging(' '.join(tokenize), show=0)
         return w,p,s
     else:
         sans_stop_words = [w for w in tokenize if not w in stop_words]
@@ -59,15 +60,13 @@ def tag_text(article, stop_words = get_stopwords(), stpwds = True):
 
 
 def make_dict_filtering(articles):
-    # stopwords (once over all)
-    stop_words = get_stopwords()
     ## initialize articles
     dict_filtering = articles
     n_art = len(articles)
     with tqdm(desc = 'Filtering', total = n_art) as fbar:
         for iart in articles:
             content = articles[iart]['content']
-            words, post, stem = tag_text(content, stop_words, stpwds = True)
+            words, post, stem = tag_text(content, stpwds = True)
             dict_filtering[iart]['content'] = dict(words = words, postag = post, stem = stem)
             fbar.update()
             continue
