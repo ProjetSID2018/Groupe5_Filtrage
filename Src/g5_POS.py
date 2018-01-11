@@ -10,8 +10,9 @@ import nltk
 from nltk import ne_chunk, pos_tag
 from nltk.tokenize import word_tokenize
 from Src.g5_stopwords import get_stopwords
+import spacy
 
-#Global variable, used many times and only needs to be loaded once
+# Global variable, used many times and only needs to be loaded once
 stop_words = get_stopwords()
 
 # Goes through given POS-TAG tree if Tree not a tuple and returns a list of
@@ -29,8 +30,8 @@ def getNodes(parent):
     return list_node
 
 
-#Adds POS-Tag in a parallel list
-def pos_tagging(text, stop_words = [], show=1):
+# Adds POS-Tag in a parallel list
+def pos_tagging(text, stop_words=[], show=1):
     words = []
     postag = []
 
@@ -61,3 +62,39 @@ def pos_tagging(text, stop_words = [], show=1):
         print(words, '\n', postag)
 
     return words, postag
+
+
+def tokeniz(article):  # Tokenize with library Spacy
+    simple_art = article.replace("'", " ")
+    nlp = spacy.load('fr')
+    doc = nlp(simple_art)
+    return doc
+
+
+def analys_token(art_token, entity, entity_, with_stopwords=True):
+    for keys in entity.keys():
+        art_token = art_token.replace(keys, keys.replace(" ", "_"))
+    info_token = {}
+    words = []
+    i = 1
+    for token in art_token:
+        words.append(token.text)
+        if str(token.text) not in stop_words:
+            tag = 'STOPWORD'
+        else:
+            tag = token.pos_
+
+        if str(token) in entity_.keys() and with_stopwords:
+            info_token[i] = {'word': token.text, 'lemma': token.lemma_,
+                      'pos.tag': tag,
+                      'is.entity': entity[str(token)][-1]}
+        elif with_stopwords:
+            info_token[i] = {'word': token.text, 'lemma': token.lemma_,
+                      'pos.tag': tag,
+                      'is.entity': 'Null'}
+        elif str(token.text) not in stop_words:
+            info_token[i] = {'word': token.text, 'lemma': token.lemma_}
+        i += 1
+    if with_stopwords:
+        info_token['words'] = words
+    return info_token
