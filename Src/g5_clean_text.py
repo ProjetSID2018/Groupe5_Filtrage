@@ -1,7 +1,7 @@
 """============================================================================
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
-@group: Groupe 5 - Filtrage
+@group: Group 5 - Filtrage
 @author: Paul Lafaurie
 
 Function : Remove all non-word non-digit character
@@ -12,7 +12,7 @@ import re
 """============================================================================
     Clean Text of all weird symbols
 ============================================================================"""
-# Tokenisation without ponctuation
+# Tokenization without punctuation
 # @param:text actual content of the article
 
 
@@ -27,10 +27,10 @@ def clean_symbols(text):
     art = re.sub(r'’', ' ', art)
 
     # Get previous letter
-    prev_appost = re.findall('([A-Za-z])\'', art)
+    prev_apostrophe = re.findall('([A-Za-z])\'', art)
 
-    for ilet in prev_appost:
-        art = re.sub(ilet + '\'', ilet + ' ', art)
+    for letter in prev_apostrophe:
+        art = re.sub(letter + '\'', letter + ' ', art)
         continue
 
     # Remove symbols and characters other than letters and digits(accents stay)
@@ -43,5 +43,5 @@ def clean_symbols(text):
     # Replace several consecutive blanks by just one blank.
     art = re.sub(' +', ' ', art)
 
-    # Out: text content without unecessay characters
+    # Out: text content without unnecessary characters
     return art
