@@ -12,19 +12,19 @@ import spacy
 import json
 import numpy as np
 from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+json_data = open('/Users/Elise/Groupe5_Filtrage_bis/Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
+
+#a changer par le code ci-dessous parce que probleme on ne sait pas pk
+#json_data = open('../Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
 
 
-def get_stopwords():
-    return set(stopwords.words('french'))
-
-json_data = open('/Users/Elise/Documents/Travail/M1_SID/Projet/artlmde12018-01-08_robot.json')
 data = json.load(json_data)
 json_data.close()
 
 articles = {}
 art = data['content']
-
-# ENLEVER LES TIRETS DANS LE TEXTE
 
 # tokeniz with spacy
 def tokeniz(article):
@@ -44,15 +44,6 @@ def rec_entity(article):
 
 rec_entity(b)
 
-# list of spacy stopwords
-list_stopwords = []
-for find_stopwords in b:
-    if find_stopwords.is_stop:
-        list_stopwords.extend([find_stopwords])
-for i in range(len(list_stopwords)):
-    list_stopwords[i] = str(list_stopwords[i])
-print(np.unique(list_stopwords))
-
 # tf
 def tf(b):
     a = []
@@ -68,8 +59,15 @@ def tf(b):
 
 tf(b)
 
-# Join the list of stop_words
-def get_stopwords_test():
+# List of stop_words
+def get_stopwords():
+    # list of spacy stopwords
+    list_stopwords = []
+    for find_stopwords in b:
+        if find_stopwords.is_stop:
+            list_stopwords.extend([find_stopwords])
+    for i in range(len(list_stopwords)):
+        list_stopwords[i] = str(list_stopwords[i])
     stop_words = set(stopwords.words('french'))
     list_stopwords_other = []
     for i in stop_words:
@@ -79,3 +77,16 @@ def get_stopwords_test():
             np.unique(list_stopwords.append(list_stopwords_other[i]))
     return list_stopwords
 
+stop_words = get_stopwords()
+
+lettre = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f',
+          'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n']
+for i in lettre:
+    stop_words.append(i)
+
+stop_words = np.unique(stop_words)
+
+sans_stop_words = []
+for w in b:
+    if str(w) not in stop_words:
+        sans_stop_words.append(str(w))
