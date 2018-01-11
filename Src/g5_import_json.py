@@ -24,20 +24,22 @@ def import_daily_jsons(path_source):
         Summary:
             Import a panel of article from robot group (g4) according to the
             server structure :
-                path_source / newspaper / article
+                [date] / path_source / newspaper / article
+            where "date" corresponds to the most recent repository.
         In:
             - path_source : a string which corresponds to the localisation
                 of robot group (g4)
         Out:
             - articles : a dict of articles
-
     """
+    # Get today directory
+    path_source += ('/' + listdir(path_source)[-1])
+    newspaper_ls = listdir(path_source)
     # Initiation
     articles = {}
-    newspaper_ls = listdir(path_source)
     # Loop: For each inewspaper
     for inewspaper in newspaper_ls:
-        # management of hidden repositories: needed on mac, useless on windows
+        # management of hidden repositories: required on mac, not on windows
         if not inewspaper.startswith('.'):
             xdirpaper = path_source + '/' + inewspaper
             files_ls = listdir(xdirpaper)
