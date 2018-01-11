@@ -11,6 +11,7 @@ from os import listdir
 from re import findall
 import json
 from tqdm import tqdm
+from datetime import datetime
 
 """============================================================================
     Functions :
@@ -33,8 +34,12 @@ def import_daily_jsons(path_source):
             - articles : a dict of articles
     """
     # Get today directory
-    path_source += ('/' + listdir(path_source)[-1])
-    newspaper_ls = listdir(path_source)
+    today = datetime.now().strftime('%Y-%m-%d')
+    dates_ls = listdir(path_source)
+    if today in dates_ls:
+        path_source += ('/' + today)
+    else:
+        path_source += ('/' + dates_ls[-1])
     # Initiation
     articles = {}
     newspaper_ls = listdir(path_source)
