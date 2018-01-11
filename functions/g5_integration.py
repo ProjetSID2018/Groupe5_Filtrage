@@ -7,29 +7,32 @@ Created on Wed Jan 10 13:57:06 2018
 ============================================================================"""
 
 from tqdm import tqdm
-from Src.g5_clean_text import clean_symbols
-from Src.g5_POS import pos_tagging, tokeniz, analys_token
-from Src.g5_stemming import nltk_stemming
-from Src.g5_stopwords import get_stopwords
-from Src.g5_named_entity import recognize_entity
+import pickle
+from functions.g5_clean_text import clean_symbols
+#from functions.g5_POS import pos_tagging
+from functions.g5_POS import tokeniz, analys_token
+from functions.g5_stemming import nltk_stemming
+#from functions.g5_stopwords import get_stopwords
+from functions.g5_named_entity import recognize_entity
 
 """============================================================================
     links
 ============================================================================"""
 
 # LINK ON SERVER
-# path_source = '/var/www/html/projet2018/data/clean/robot
-# path_target = '/var/www/html/projet2018/data/clean/filtering'
+path_source = '/var/www/html/projet2018/data/clean/robot'
+path_target = '/var/www/html/projet2018/data/clean/filtering'
+stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
-path_source = '../Data/source_press_article'
-path_target = '../Data/target_press_article'
+#path_source = '../Data/source_press_article'
+#path_target = '../Data/target_press_article'
+#stop_words = pickle.load(open('stopwords.p', 'rb'))
 
 """============================================================================
     import json
 ============================================================================"""
 # Global variable, used many times and only needs to be loaded once
-stop_words = get_stopwords()
-
+#stop_words = get_stopwords()
 
 def tag_text(article, f_stopwords=True):
     # remove punctuation

@@ -14,12 +14,12 @@ from nltk.corpus import stopwords
 nltk.download('stopwords')
 
 
-json_data = open('../Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
-data = json.load(json_data)
-json_data.close()
-
-articles = {}
-art = data['content']
+#json_data = open('./Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json', encoding='utf8')
+#data = json.load(json_data)
+#json_data.close()
+#
+#articles = {}
+#art = data['content']
 
 
 # tokeniz with spacy
@@ -29,7 +29,7 @@ def tokeniz(article):
     return doc
 
 
-b = tokeniz(art)
+#b = tokeniz(art)
 
 
 def rec_entity(article):
@@ -41,18 +41,18 @@ def rec_entity(article):
     return Ent
 
 
-# tf
-def tf(b):
-    a = []
-    for i in range(len(b)):
-        a.append(str(b[i]))
-    unique, counts = np.unique(a, return_counts=True)
-    dict_words = {}
-    for uk, ct in zip(unique, counts):
-        sum_words = np.sum(counts)
-        dict_words[uk] = ct/sum_words
-        continue
-    return dict_words
+## tf
+#def tf(b):
+#    a = []
+#    for i in range(len(b)):
+#        a.append(str(b[i]))
+#    unique, counts = np.unique(a, return_counts=True)
+#    dict_words = {}
+#    for uk, ct in zip(unique, counts):
+#        sum_words = np.sum(counts)
+#        dict_words[uk] = ct/sum_words
+#        continue
+#    return dict_words
 
 
 # List of stop_words
@@ -74,11 +74,11 @@ def get_stopwords():
     return list_stopwords
 
 
-stop_words = get_stopwords()
-
-lettre = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f',
-          'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n']
-for i in lettre:
-    stop_words.append(i)
-
-stop_words = np.unique(stop_words)
+#stop_words = get_stopwords()
+#
+#lettre = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f',
+#          'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n']
+#for i in lettre:
+#    stop_words.append(i)
+#
+#stop_words = np.unique(stop_words)
