@@ -35,6 +35,7 @@ def import_daily_jsons(path_source):
     # Initiation
     articles = {}
     newspaper_ls = listdir(path_source)
+    print(path_source)
     # Loop: For each inewspaper
     for inewspaper in newspaper_ls:
         # management of hidden repositories: needed on mac, useless on windows

@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Wed Jan 10 13:57:06 2018
 
-@author: Cedric, Paul
+@author: Cedric, Paul, Clément BRANDAO
 
 ============================================================================"""
 
@@ -36,14 +36,12 @@ def tag_text(article, f_stopwords=True):
     art = clean_symbols(article)
     # tokenize text
     tokenize = tokeniz(art)
-    # For parenthesis that are stuck to text
-    if '(' in tokenize:
-        tokenize.remove('(')
-    if ')' in tokenize:
-        tokenize.remove(')')
-
+    
     # Return list of entity end list of entity here " " are replace by "_"
-    entity, entity_ = recognize_entity()
+    entity, entity_ = recognize_entity(tokenize)
+    for keys in entity.keys():
+        art = article.replace(keys, keys.replace(" ", "_"))
+    tokenize = tokeniz(art)
 
     # Here, we decide what to return based on the bool flag f_stopwords
     # if f_stopwords is True, we return the list of all the words alongside the

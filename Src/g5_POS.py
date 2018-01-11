@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
 @group: Groupe 5 - Filtrage
-@author: Paul Lafaurie
+@author: Paul Lafaurie, Clément BRANDAO
 
 Function : Get Part-of-Speech Tags for every word
 ============================================================================"""
@@ -72,8 +72,6 @@ def tokeniz(article):  # Tokenize with library Spacy
 
 
 def analys_token(art_token, entity, entity_, with_stopwords=True):
-    for keys in entity.keys():
-        art_token = art_token.replace(keys, keys.replace(" ", "_"))
     info_token = {}
     words = []
     i = 1

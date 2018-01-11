@@ -6,31 +6,31 @@ Created on Tue Jan 10 2018
 
 Function : Get list of stop-words
 ============================================================================"""
-
-# nltk.download('stopwords')
 import spacy
+import nltk
 from nltk.corpus import stopwords
-
+nltk.download('stopwords')
 
 def get_stopwords():
     return set(stopwords.words('french'))
-
-json_data = open('/Users/Elise/Documents/Travail/M1_SID/Projet/artlmde12018-01-08_robot.json')
+'''
+json_data = open('../Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
 data = json.load(json_data)
 json_data.close()
 
 articles = {}
 art = data['content']
-
+'''
 # ENLEVER LES TIRETS DANS LE TEXTE
 
 def tokeniz(article):
    nlp = spacy.load('fr')
    doc = nlp(article)
    return doc
+'''
 b = tokeniz(art)
 b[2]    
-    
+    '''
 def rec_entity(article):
     i=0
     Ent = {}
@@ -38,7 +38,7 @@ def rec_entity(article):
         Ent[i] = [entity.text,entity.label_]
         i +=1
     return Ent
-
+'''
 rec_entity(b)
 
 #list of spacy stopwords
@@ -51,6 +51,7 @@ for i in range(len(list_stopwords)):
 print(np.unique(list_stopwords))
 
 # tf
+
 a = []
 for i in range(len(b)):
     a.append(str(b[i]))
@@ -61,3 +62,4 @@ for uk, ct in zip(unique, counts):
     sum_words = np.sum(counts)
     dict_words[uk] = ct/sum_words
     continue
+    '''

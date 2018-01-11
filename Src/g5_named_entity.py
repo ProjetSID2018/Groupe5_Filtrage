@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
 @group: Groupe 5 - Filtrage
-@author: Adrien Caminade, Paul Lafaurie and Stackoverflow
+@author: Adrien Caminade, Paul Lafaurie and Stackoverflow, Clément BRANDAO
 
 Function : Get named entities from text
 ============================================================================"""
