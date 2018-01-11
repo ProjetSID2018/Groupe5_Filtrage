@@ -78,7 +78,7 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
     i = 1
     for token in art_token:
         words.append(token.text)
-        lemma.append(str(token.lemma_))
+        lemma.append(token.lemma_)
 
         if str(token.text) not in stop_words:
             tag = 'STOPWORD'
@@ -98,5 +98,6 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
         i += 1
     if with_stopwords:
         info_token['words'] = words
-        info_token['lemma'] = ' '.join(lemma)
+        info_token['list_lemma'] = lemma
+
     return info_token
