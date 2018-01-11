@@ -11,6 +11,10 @@ import json
 import numpy as np
 import nltk
 from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+json_data = open('../Data/source_press_article/2018-01-08/lemonde/artlmde12018-01-08_robot.json')
+
 nltk.download('stopwords')
 
 def get_stopwords():
@@ -23,17 +27,16 @@ json_data.close()
 articles = {}
 art = data['content']
 '''
-# ENLEVER LES TIRETS DANS LE TEXTE
+
 
 # tokeniz with spacy
 def tokeniz(article):
    nlp = spacy.load('fr')
    doc = nlp(article)
    return doc
-'''
-b = tokeniz(art)
-b[2]    
-    '''
+
+b = tokeniz(art)   
+
 def rec_entity(article):
     i = 0
     Ent = {}
@@ -43,15 +46,6 @@ def rec_entity(article):
     return Ent
 '''
 rec_entity(b)
-
-# list of spacy stopwords
-list_stopwords = []
-for find_stopwords in b:
-    if find_stopwords.is_stop:
-        list_stopwords.extend([find_stopwords])
-for i in range(len(list_stopwords)):
-    list_stopwords[i] = str(list_stopwords[i])
-print(np.unique(list_stopwords))
 
 # tf
 
@@ -69,8 +63,15 @@ for uk, ct in zip(unique, counts):
 
 #tf(b)
 
-# Join the list of stop_words
-def get_stopwords_test():
+# List of stop_words
+def get_stopwords():
+    # list of spacy stopwords
+    list_stopwords = []
+    for find_stopwords in b:
+        if find_stopwords.is_stop:
+            list_stopwords.extend([find_stopwords])
+    for i in range(len(list_stopwords)):
+        list_stopwords[i] = str(list_stopwords[i])
     stop_words = set(stopwords.words('french'))
     list_stopwords_other = []
     for i in stop_words:
@@ -79,4 +80,13 @@ def get_stopwords_test():
         if list_stopwords_other[i] not in list_stopwords:
             np.unique(list_stopwords.append(list_stopwords_other[i]))
     return list_stopwords
+
+stop_words = get_stopwords()
+
+lettre = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f',
+          'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n']
+for i in lettre:
+    stop_words.append(i)
+
+stop_words = np.unique(stop_words)
 
