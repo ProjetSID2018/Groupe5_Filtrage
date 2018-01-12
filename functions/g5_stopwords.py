@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
 @group: Groupe 5 - Filtrage
-@author: Elise Benois
+@author: Elise Benois, Clément BRANDAO, Paul LAFARIE
 
 Function : Get list of stop-words
 ============================================================================"""
@@ -24,12 +24,11 @@ nltk.download('stopwords')
 
 # tokeniz with spacy
 def tokeniz(article):
-    nlp = spacy.load('fr')
     doc = nlp(article)
     return doc
 
 
-#b = tokeniz(art)
+# b = tokeniz(art)
 
 
 def rec_entity(article):
@@ -40,19 +39,19 @@ def rec_entity(article):
         i += 1
     return Ent
 
-
-## tf
-#def tf(b):
-#    a = []
-#    for i in range(len(b)):
-#        a.append(str(b[i]))
-#    unique, counts = np.unique(a, return_counts=True)
-#    dict_words = {}
-#    for uk, ct in zip(unique, counts):
-#        sum_words = np.sum(counts)
-#        dict_words[uk] = ct/sum_words
-#        continue
-#    return dict_words
+'''
+# tf
+def tf(b):
+    a = []
+    for i in range(len(b)):
+        a.append(str(b[i]))
+    unique, counts = np.unique(a, return_counts=True)
+    dict_words = {}
+    for uk, ct in zip(unique, counts):
+        sum_words = np.sum(counts)
+        dict_words[uk] = ct/sum_words
+        continue
+    return dict_words
 
 
 # List of stop_words

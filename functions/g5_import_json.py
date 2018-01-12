@@ -9,6 +9,7 @@ Function : import and write json
 
 from os import listdir
 from re import findall
+import re
 import json
 from tqdm import tqdm
 from datetime import datetime
@@ -54,11 +55,12 @@ def import_daily_jsons(path_source):
             with tqdm(desc=inewspaper, total=len(files_ls)) as fbar:
                 # Loop: For each file
                 for ifile in files_ls:
-                    iname = findall('^(.*?)_robot.json', ifile)[0]
-                    # Import Json
-                    with open(xdirpaper + '/' + ifile, 'r',
-                              encoding='utf-8') as dict_robot:
-                        articles[iname] = json.load(dict_robot)
+                    if not ifile.startswith('.'):
+                        iname = findall('^(.*?)_robot.json', ifile)[0]
+                        # Import Json
+                        with open(xdirpaper + '/' + ifile, 'r',
+                                  encoding='utf-8') as dict_robot:
+                            articles[iname] = json.load(dict_robot)
                     fbar.update()
                     continue
                 # End newspaper repository
@@ -87,7 +89,7 @@ def write_filtering_jsons(art_filtering, path_target):
             ifile = iart + '_filtering.json'
             with open(path_target + '/' + ifile, 'w',
                       encoding='utf-8') as outfile:
-                json.dump(idict, outfile)
+                json.dump(idict, outfile, ensure_ascii=False)
             fbar.update()
             continue
     return None

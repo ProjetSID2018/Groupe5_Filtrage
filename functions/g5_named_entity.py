@@ -26,7 +26,8 @@ def get_continuous_chunks(text):
             # If current node is not a leaf
             if type(i) == Tree:
                 # Add text from this node to the current_chunk
-                current_chunk.append(" ".join([token for token, pos in i.leaves()]))
+                current_chunk.append(
+                        " ".join([token for token, pos in i.leaves()]))
             # Elif current_chunk ended
             elif current_chunk:
                 # Add current chunk to the list, reset current_chunk
