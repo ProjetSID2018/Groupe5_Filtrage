@@ -15,6 +15,14 @@ from nltk.tokenize import word_tokenize
 
 
 def get_continuous_chunks(text):
+    """
+        Summary:
+            this functions...
+        In:
+            - text:
+        Out:
+            ...
+    """
     # Get a tree with named entities grouped together
     chunked = ne_chunk(pos_tag(word_tokenize(text)))
     continuous_chunk = []
@@ -42,6 +50,14 @@ def get_continuous_chunks(text):
 
 
 def recognize_entity(article):  # Unique named entity version
+    """
+        Summary:
+            this functions...
+        In:
+            - article:
+        Out:
+            ...
+    """
     Ent = {}
     Ent_und = {}
     for entity in article.ents:
