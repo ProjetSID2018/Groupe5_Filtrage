@@ -10,8 +10,14 @@ from nltk.stem.snowball import FrenchStemmer
 
 
 def nltk_stemming(l_token):
+    '''
+        Summary:
+            This function stems all tokens with french stemmer
+            from NTLK library.
+        In:
+            - l_token: list of tokenized words.
+        Out:
+            - stems: list of stemmatized words.
+    '''
     stemmer = FrenchStemmer()
-    stems = []
-    for w in l_token:
-        stems.append(stemmer.stem(w))
-    return stems
+    return [stemmer.stem(w) for w in l_token]
