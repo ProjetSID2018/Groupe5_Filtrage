@@ -24,6 +24,12 @@ stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions
 
 
 def get_nodes(parent):
+    """
+        Summary:
+        In:
+            - parent:
+        Out:
+    """
     list_node = []
     for node in parent:
         if type(node) is nltk.Tree:
@@ -36,6 +42,17 @@ def get_nodes(parent):
 
 # Adds POS-Tag in a parallel list
 def pos_tagging(text, stop_words=[], show=1):
+    """
+        Summary:
+            This functions
+        In:
+            - text:
+            - stop_words:
+            - show:
+        Out:
+            words:
+                postag
+    """
     words = []
     postag = []
 
@@ -69,12 +86,34 @@ def pos_tagging(text, stop_words=[], show=1):
 
 
 def tokeniz(article):  # Tokenize with library Spacy
+    """
+        Summary:
+        In:
+            - article: content of the article
+        Out:
+    """
     simple_art = article.replace("'", " ")
     doc = nlp(simple_art)
     return doc
 
 
 def analys_token(art_token, entity, entity_, with_stopwords=True):
+    """
+        Summary:
+            This function create the dictionnary.
+            Requires global variable "stop_words"
+        In:
+            - art_token: list of tokenized word
+            - entity:
+            - entity_:
+            - with_stopwords: boolean:
+                    * 'True' if stopwords are kept,
+                    * 'False' if they are dropped.
+        Out:
+            - info_token : a dictionnary (length = ):
+                each compartiment is a dictionnary which contains informations
+                for each words
+    """
     info_token = {}
     info_post = []
     words = []
@@ -112,4 +151,3 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
         return info_token
     else:
         return info_post
-
