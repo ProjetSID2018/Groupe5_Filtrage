@@ -14,7 +14,9 @@ from functions.g5_POS import tokeniz, analys_token
 from functions.g5_stemming import nltk_stemming
 #from functions.g5_stopwords import get_stopwords
 from functions.g5_named_entity import recognize_entity
-stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+#stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+
 
 """============================================================================
     links

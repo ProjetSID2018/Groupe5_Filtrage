@@ -7,15 +7,17 @@ Created on Tue Jan 10 2018
 Function : Get Part-of-Speech Tags for every word
 ============================================================================"""
 import nltk
+import pickle
 from nltk import ne_chunk, pos_tag
 from nltk.tokenize import word_tokenize
-from functions.g5_stopwords import get_stopwords
+#from functions.g5_stopwords import get_stopwords
 import spacy
 nlp = spacy.load('fr')
 
 
 # Global variable, used many times and only needs to be loaded once
 #stop_words = get_stopwords()
+stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 # Goes through given POS-TAG tree if Tree not a tuple and returns a list of
 # all word/tag combinations.
