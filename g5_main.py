@@ -18,14 +18,14 @@ from functions.g5_database_posts import post_WORD
 ============================================================================"""
 
 # LINK ON THE SERVER
-#path_source = '/var/www/html/projet2018/data/clean/robot'
-#path_target = '/var/www/html/projet2018/data/clean/filtering'
-#stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+path_source = '/var/www/html/projet2018/data/clean/robot'
+path_target = '/var/www/html/projet2018/data/clean/filtering'
+stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 # LINK ON GITHUB
-path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
-path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
-stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+#path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
+#path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
+#stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 
 # Import Jsons
 articles = import_daily_jsons(path_source)
@@ -35,12 +35,9 @@ sub_articles = {key : articles[key] for key in list(articles)[0:4]}
 # articles = articles['artlibe42272018-01-08','artlibe19572018-01-08','artlibe25602018-01-08','artlibe32622018-01-08','','','','','','','','','','','','','','','','','','','','','','']
 # Treatment
 dict_filtering = make_dict_filtering(articles)
-
 dict_post = make_dict_post_filtering(sub_articles)
-dict_post[0]
-len(dict_post)
-[{'lemma': 'mourir', 'word': 'mourir'}, {'lemma': 'mourir', 'word': 'mourir'}, {'lemma': 'mourir', 'word': 'mourir'}]
-#var = post_WORD(dict_post)
+var = post_WORD(dict_post)
+print(var.text
 
 # Writing
 write_filtering_jsons(dict_filtering, path_target)
