@@ -22,10 +22,8 @@ def clean_symbols(text):
     art = text.replace('?', '.')
     art = art.replace('!', '.')
     art = art.replace('...', '.')
-
     # Replace apostrophes by blanks
     art = re.sub(r'’', ' ', art)
-
     # Get previous letter
     prev_apostrophe = re.findall('([A-Za-z])\'', art)
 

@@ -42,13 +42,11 @@ def tag_text(article, f_stopwords=True):
     art = clean_symbols(article)
     # tokenize text
     tokenize = tokeniz(art)
-
     # Return list of entity end list of entity here " " are replace by "_"
     entity, entity_ = recognize_entity(tokenize)
     for keys in entity.keys():
         art = article.replace(keys, keys.replace(" ", "_"))
     tokenize = tokeniz(art)
-
     # Here, we decide what to return based on the bool flag f_stopwords
     # if f_stopwords is True, we return the list of all the words alongside the
     # list of all the word stems and
@@ -59,7 +57,7 @@ def tag_text(article, f_stopwords=True):
     if f_stopwords:
         return analys_token(tokenize, entity, entity_)
     else:
-        return analys_token(tokenize, entity, entity_, False)
+        return analys_token(tokenize, entity, entity_, with_stopwords=False)
 
 
 def make_dict_filtering(articles):
@@ -74,3 +72,19 @@ def make_dict_filtering(articles):
             progress_bar.update()
             continue
     return dict_filtering
+
+
+def make_dict_post_filtering(articles):
+    # initialize articles
+    dict_filtering = articles
+    n_art = len(articles)
+    dic = []
+    with tqdm(desc='Filtering', total=n_art) as progress_bar:
+        for plain_text in articles:
+            dict_filtering[plain_text]['content'] = tag_text(
+                    articles[plain_text]['content'], False
+                    )
+            dic.append(dict_filtering[plain_text]['content'])
+            progress_bar.update()
+            continue
+    return dic
