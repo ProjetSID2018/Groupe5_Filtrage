@@ -47,6 +47,7 @@ def tag_text(article, f_stopwords=True):
     for keys in entity.keys():
         art = art.replace(keys, keys.replace(" ", "_"))
     tokenize = tokeniz(art)
+    
     # Here, we decide what to return based on the bool flag f_stopwords
     # if f_stopwords is True, we return the list of all the words alongside the
     # list of all the word stems and
