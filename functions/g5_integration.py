@@ -67,15 +67,19 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
                              'lemma': token.lemma_,
                              'pos_tag': 'Null',
                              'type_entity': entity_[str(token)],
+                             'position': i,
                              'title': False}
         elif with_stopwords:
             info_token[i] = {'word': token.text,
                              'lemma': token.lemma_,
                              'pos_tag': tag,
                              'type_entity': 'Null',
+                             'position': i,
                              'title': False}
         elif str(token.text) not in stop_words:
-            info_post.append({'word': token.text, 'lemma': token.lemma_})
+            info_post.append({'word': token.text,
+                              'lemma': token.lemma_,
+                              'position': i})
         i += 1
     if with_stopwords:
         info_token['words'] = words
@@ -122,7 +126,7 @@ def tag_text(text, f_stopwords=True):
         return analys_token(tokens, entity, entity_, with_stopwords=False)
 
 
-'''
+
 def make_article_filtering(article, with_stopwords):
     """
         Summary:
@@ -144,10 +148,9 @@ def make_article_filtering(article, with_stopwords):
             f_stopwords=with_stopwords
     )
     return res_art
-'''
 
-#
-#def make_dict_filtering(articles):
+
+# def make_dict_filtering(articles):
 #    """
 #        Summary:
 #            This functions...
@@ -168,7 +171,7 @@ def make_article_filtering(article, with_stopwords):
 #    return dict_filtering
 #
 #
-#def make_dict_post_filtering(articles):
+# def make_dict_post_filtering(articles):
 #    """
 #        Summary:
 #            This functions...
