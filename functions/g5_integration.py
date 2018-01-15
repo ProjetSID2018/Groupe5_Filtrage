@@ -17,18 +17,17 @@ from functions.g5_named_entity import recognize_entity
 stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 #stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
-
 """============================================================================
     links
 ============================================================================"""
 
 # LINK ON SERVER
-path_source = '/var/www/html/projet2018/data/clean/robot'
-path_target = '/var/www/html/projet2018/data/clean/filtering'
+#path_source = '/var/www/html/projet2018/data/clean/robot'
+#path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 # TEST LINK
-#path_source = '../Data/source_press_article'
-#path_target = '../Data/target_press_article'
+path_source = '../Data/source_press_article'
+path_target = '../Data/target_press_article'
 
 """============================================================================
     import json
@@ -38,6 +37,18 @@ path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 
 def tag_text(article, f_stopwords=True):
+    """
+        Summary:
+        In:
+            - article: content of the article
+            /!\ il faudra a l'avenir qu'on soit rigoureux sur le nom des
+            arguments : soit utiliser 'text', soit 'content', mais le meme
+            de partout.
+            - f_stopwords: boolean:
+                    * True if...
+                    * False if...
+        Out:
+    """
     # remo ve punctuation
     text = clean_symbols(article)
     # tokenize text
@@ -62,20 +73,35 @@ def tag_text(article, f_stopwords=True):
 
 
 def make_dict_filtering(articles):
+    """
+        Summary:
+            This functions...
+        In:
+            - articles: dictionnary which contains articles
+        Out:
+            - dict_filtering: dictionnary which contains articles
+    """
     # initialize articles
     dict_filtering = articles
     n_art = len(articles)
     with tqdm(desc='Filtering', total=n_art) as progress_bar:
         for plain_text in articles:
             dict_filtering[plain_text]['content'] = tag_text(
-                    articles[plain_text]['content']
-                    )
+                    articles[plain_text]['content'])
             progress_bar.update()
             continue
     return dict_filtering
 
 
 def make_dict_post_filtering(articles):
+    """
+        Summary:
+            This functions...
+        In:
+            - articles: dictionnary which contains articles
+        Out:
+            - dict_filtering: dictionnary which contains articles
+    """
     # initialize articles
     dict_filtering = articles
     n_art = len(articles)

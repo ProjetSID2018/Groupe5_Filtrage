@@ -34,6 +34,8 @@ def import_daily_jsons(path_source):
         Out:
             - articles : a dict of articles
     """
+    # Initialisation
+    articles = {}
     # Get today directory
     today = datetime.now().strftime('%Y-%m-%d')
     dates_ls = listdir(path_source)
@@ -41,13 +43,10 @@ def import_daily_jsons(path_source):
         path_source += ('/' + today)
     else:
         path_source += ('/' + dates_ls[-1])
-    # Initiation
-    articles = {}
     newspaper_ls = listdir(path_source)
-    print(path_source)
     # Loop: For each inewspaper
     for inewspaper in newspaper_ls:
-        # management of hidden repositories: required on mac, not on windows
+        # management of hidden repositories: required on mac (.ds_store)
         if not inewspaper.startswith('.'):
             xdirpaper = path_source + '/' + inewspaper
             files_ls = listdir(xdirpaper)
