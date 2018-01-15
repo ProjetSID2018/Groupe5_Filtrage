@@ -86,7 +86,7 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
         return info_post
 
 
-def tag_text(article, f_stopwords=True):
+def tag_text(text, f_stopwords=True):
     """
         Summary:
         In:
@@ -94,33 +94,57 @@ def tag_text(article, f_stopwords=True):
             /!\ il faudra a l'avenir qu'on soit rigoureux sur le nom des
             arguments : soit utiliser 'text', soit 'content', mais le meme
             de partout.
-            - f_stopwords: boolean:
-                    * True if...
-                    * False if...
+            - f_stopwords: boolean used with parameter "with_stopwords"
+            from analys_token
         Out:
+            2 results (see analys_tokens)
+            if stopwords = True:
+                a dict with:
+                    - a list of all the words alongside the list of all the
+                    words stems
+                    - a list of of each POS-TAG (in which stop-words are tagged
+                    as such regardless of what Tag they got)
+           if stopwords = False:
+               - a list of all the words striped of stopwords
+               - a list of the word stems
     """
-    # remo ve punctuation
-    text = clean_symbols(article)
-    # tokenize text
-    tokenize = tokeniz(text)
-    # Return list of entity end list of entity here " " are replace by "_"
-    entity, entity_ = transform_entity(tokenize)
+    # remove punctuation
+    art = clean_symbols(text)
+    # list of entity and list of entity here " " are replace by "_"
+    entity, entity_ = transform_entity(tokeniz(art))
     for keys in entity.keys():
-        text = text.replace(keys, keys.replace(" ", "_"))
-    tokenize = tokeniz(text)
-    
+        art = art.replace(keys, keys.replace(" ", "_"))
+    tokens = tokeniz(art)
     # Here, we decide what to return based on the bool flag f_stopwords
-    # if f_stopwords is True, we return the list of all the words alongside the
-    # list of all the word stems and
-    # a list of each POS-TAG (in which stop-words are tagged as such regardless
-    # of what Tag they got)
-    # if f_stopwords is False, we return a list of all the words striped of
-    # stopwords, and the word stems
     if f_stopwords:
-        return analys_token(tokenize, entity, entity_)
+        return analys_token(tokens, entity, entity_, with_stopwords=True)
     else:
-        return analys_token(tokenize, entity, entity_, with_stopwords=False)
+        return analys_token(tokens, entity, entity_, with_stopwords=False)
 
+
+'''
+def make_article_filtering(article, with_stopwords):
+    """
+        Summary:
+            This functions...
+        In:
+            - article: a dictionnary structured as an article
+            (see gr4 : robot)
+        Out:
+            - dict_filtering: dictionnary which contains articles
+    """
+    res_art = {}
+    res_art['article'] = {
+            'date_publication': article['date_publi'],
+            'name_newspaper': article['newspaper'],
+            'surname_author': article['author']
+    }
+    res_art['position_words'] = tag_text(
+            article['content'],
+            f_stopwords=with_stopwords
+    )
+    return res_art
+'''
 
 #
 #def make_dict_filtering(articles):
