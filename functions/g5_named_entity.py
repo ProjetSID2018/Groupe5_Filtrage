@@ -6,7 +6,7 @@ Created on Tue Jan 10 2018
 
 Function : Get named entities from text
 ============================================================================"""
-#def get_continuous_chunks(text):
+# def get_continuous_chunks(text):
 #    """
 #        Summary:
 #            this functions...
@@ -41,7 +41,7 @@ Function : Get named entities from text
 #    return continuous_chunk
 
 
-def transform_entity(article):  # Unique named entity version
+def handing_entity(tokenize_text):  # Unique named entity version
     """
         Summary:
             this functions...
@@ -52,7 +52,7 @@ def transform_entity(article):  # Unique named entity version
     """
     Ent = {}
     Ent_und = {}
-    for entity in article.ents:
+    for entity in tokenize_text.ents:
         Ent[entity.text] = [entity.start_char, entity.end_char, entity.label_]
         Ent_und[entity.text.replace(" ", "_")] = entity.label_
     return Ent, Ent_und

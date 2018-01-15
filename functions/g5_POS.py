@@ -23,7 +23,7 @@ nlp = spacy.load('fr')
 # all word/tag combinations.
 
 
-#def get_nodes(parent):
+# def get_nodes(parent):
 #    """
 #        Summary:
 #        In:
@@ -41,7 +41,7 @@ nlp = spacy.load('fr')
 
 
 # Adds POS-Tag in a parallel list
-#def pos_tagging(text, stop_words=[], show=1):
+# def pos_tagging(text, stop_words=[], show=1):
 #    """
 #        Summary:
 #            This functions
@@ -85,14 +85,13 @@ nlp = spacy.load('fr')
 #    return words, postag
 
 
-def tokeniz(article):  # Tokenize with library Spacy
+def tokeniz(text):  # Tokenize with library Spacy
     """
         Summary:
         In:
             - article: content of the article
         Out:
     """
-    simple_art = article.replace("'", " ")
+    simple_art = text.replace("'", " ")
     doc = nlp(simple_art)
     return doc
-

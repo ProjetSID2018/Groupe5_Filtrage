@@ -9,7 +9,6 @@ Function : import and write json
 
 from os import listdir
 from re import findall
-import re
 import json
 from tqdm import tqdm
 from datetime import datetime
@@ -69,7 +68,7 @@ def import_daily_jsons(path_source):
 
 
 
-#def write_filtering_jsons(art_filtering, path_target):
+# def write_filtering_jsons(art_filtering, path_target):
 #    """
 #        Summary:
 #             write filtering jsons :

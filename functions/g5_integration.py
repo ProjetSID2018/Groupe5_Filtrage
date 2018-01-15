@@ -6,11 +6,10 @@ Created on Wed Jan 10 13:57:06 2018
 
 ============================================================================"""
 
-from tqdm import tqdm
 import pickle
 from functions.g5_clean_text import clean_symbols
 from functions.g5_POS import tokeniz
-from functions.g5_named_entity import transform_entity
+from functions.g5_named_entity import handing_entity
 stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 #stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
@@ -33,13 +32,13 @@ path_target = '../Data/target_press_article'
 # stop_words = get_stopwords()
 
 
-def analys_token(art_token, entity, entity_, with_stopwords=True):
+def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_title=False):
     """
         Summary:
             This function create the dictionnary.
             Requires global variable "stop_words"
         In:
-            - art_token: list of tokenized word
+            - text_token: list of tokenized word
             - entity:
             - entity_:
             - with_stopwords: boolean:
@@ -50,49 +49,102 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
                 each compartiment is a dictionnary which contains informations
                 for each words
     """
-    info_token = {}
-    info_post = []
+#    info_post = []
     words = []
     lemma = []
+    info_token = {}
+    post_w = {}
+    post_w['word_info'] = []
+    info_title=[]
     i = 1
-    for token in art_token:
+    for token in text_token:
         words.append(token.text)
         lemma.append(token.lemma_)
-
-        if str(token.text) in stop_words:
-            tag = 'STOPWORD'
+        if not is_title:
+            if str(token.text) in stop_words:
+                tag = 'STOPWORD'
+            else:
+                tag = token.pos_
+    
+            if str(token) in entity_.keys() and with_stopwords:
+                info_token[i] = {'word': token.text,
+                                 'lemma': token.lemma_,
+                                 'pos_tag': 'Null',
+                                 'type_entity': entity_[str(token)],
+                                 'position': i,
+                                 'title': is_title}
+            elif with_stopwords:
+                info_token[i] = {'word': token.text,
+                                 'lemma': token.lemma_,
+                                 'pos_tag': tag,
+                                 'type_entity': 'Null',
+                                 'position': i,
+                                 'title': is_title}
+            elif str(token.text) not in stop_words:
+                post_w['article_info'] = {'date_publication': article['date_publi'],
+                                          'name_newspaper': article['newspaper'],
+                                          'author': article['author'],
+                                          }
+                if str(token) in entity_.keys():
+                    post_w['word_info'].append({
+                            'word': token.text,
+                            'lemma': token.lemma_,
+                            'post_tag': 'Null',
+                            'type_entity': entity_[str(token)],
+                            'position': i,
+                            'title': is_title
+                                })
+                else:
+                    post_w['word_info'].append({
+                                'word': token.text,
+                                'lemma': token.lemma_,
+                                'post_tag': tag,
+                                'type_entity': 'Null',
+                                'position': i,
+                                'title': is_title
+                                })
+    
+    #            info_post.append({'word': token.text,
+    #                              'lemma': token.lemma_,
+    #                              'position': i})
+            i += 1
+            continue
         else:
-            tag = token.pos_
-
-        if str(token) in entity_.keys() and with_stopwords:
-            info_token[i] = {'word': token.text,
-                             'lemma': token.lemma_,
-                             'pos_tag': 'Null',
-                             'type_entity': entity_[str(token)],
-                             'position': i,
-                             'title': False}
-        elif with_stopwords:
-            info_token[i] = {'word': token.text,
-                             'lemma': token.lemma_,
-                             'pos_tag': tag,
-                             'type_entity': 'Null',
-                             'position': i,
-                             'title': False}
-        elif str(token.text) not in stop_words:
-            info_post.append({'word': token.text,
-                              'lemma': token.lemma_,
-                              'position': i})
-        i += 1
-        continue
-    if with_stopwords:
-        info_token['words'] = words
-        info_token['list_lemma'] = lemma
-        return info_token
+            if str(token.text) in stop_words:
+                tag = 'STOPWORD'
+            else:
+                tag = token.pos_
+            if str(token) in entity_.keys():
+                info_title.append({
+                            'word': token.text,
+                            'lemma': token.lemma_,
+                            'post_tag': 'Null',
+                            'type_entity': entity_[str(token)],
+                            'position': i,
+                            'title': is_title
+                                })
+            else:
+                info_title.append({
+                            'word': token.text,
+                            'lemma': token.lemma_,
+                            'post_tag': tag,
+                            'type_entity': 'Null',
+                            'position': i,
+                            'title': is_title
+                            })
+    if not is_title:
+        if with_stopwords:
+            info_token['words'] = words
+            info_token['list_lemma'] = lemma
+            return info_token
+        else:
+            return post_w
     else:
-        return info_post
+        return info_title
 
 
-def tag_text(text, f_stopwords=True):
+def tag_text(article, f_stopwords=True, isTitle=False):
+    
     """
         Summary:
         In:
@@ -114,18 +166,23 @@ def tag_text(text, f_stopwords=True):
                - a list of all the words striped of stopwords
                - a list of the word stems
     """
+    if isTitle:
+        text = article['title']
+    else:
+        text = article['content']
     # remove punctuation
-    art = clean_symbols(text)
+    clean_text = clean_symbols(text)
     # list of entity and list of entity here " " are replace by "_"
-    entity, entity_ = transform_entity(tokeniz(art))
+    entity, entity_ = handing_entity(tokeniz(clean_text))
     for keys in entity.keys():
-        art = art.replace(keys, keys.replace(" ", "_"))
-    tokens = tokeniz(art)
+        clean_text = clean_text.replace(keys, keys.replace(" ", "_"))
+    tokens = tokeniz(clean_text)
+    print(entity,entity_)
     # Here, we decide what to return based on the bool flag f_stopwords
     if f_stopwords:
-        return analys_token(tokens, entity, entity_, with_stopwords=True)
+        return analys_token(article, tokens, entity, entity_, with_stopwords=True, is_title=isTitle)
     else:
-        return analys_token(tokens, entity, entity_, with_stopwords=False)
+        return analys_token(article, tokens, entity, entity_, with_stopwords=False, is_title=isTitle)
 
 
 def make_article_filtering(article):

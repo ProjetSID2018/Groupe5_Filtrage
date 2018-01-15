@@ -31,17 +31,22 @@ stop_words = pickle.load(open(
 # Import Jsons
 articles = import_daily_jsons(path_source)
 
-#sub_articles = {key : articles[key] for key in list(articles)[0:2]}
+# sub_articles = {key : articles[key] for key in list(articles)[0:1]}
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
         art = articles[item]
-        filtered = tag_text(art['content'])
-        art['content'] = filtered
+        filtered_content = tag_text(art, False, False)
+        filtered_title = tag_text(art, False, True)
+        filtered_title=list(filtered_title)
+        for dic in range(len(filtered_title)):
+            filtered_content['word_info'].append(filtered_title[dic])
+        art['content'] = filtered_content
         # post = make_dict_post_filtering(item)
         ifile = path_target + '/' + item + '_filtering.json'
         with open(ifile, 'w',
                   encoding='utf-8') as outfile:
-            json.dump(art, outfile, ensure_ascii=False)
+            json.dump(filtered_content, outfile, ensure_ascii=False)
+#            json.dump(art, outfile, ensure_ascii=False)
         # write_filtering_jsons(filtered, path_target + '_filtering.json')
         pbar.update()
