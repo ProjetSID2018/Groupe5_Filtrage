@@ -31,6 +31,8 @@ path_target = '../Data/target_press_article'
 ============================================================================"""
 # Global variable, used many times and only needs to be loaded once
 # stop_words = get_stopwords()
+
+
 def analys_token(art_token, entity, entity_, with_stopwords=True):
     """
         Summary:
@@ -44,7 +46,7 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
                     * 'True' if stopwords are kept,
                     * 'False' if they are dropped.
         Out:
-            - info_token : a dictionnary (length = ):
+            - info_token : a dictionnary:
                 each compartiment is a dictionnary which contains informations
                 for each words
     """
@@ -81,10 +83,10 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
                               'lemma': token.lemma_,
                               'position': i})
         i += 1
+        continue
     if with_stopwords:
         info_token['words'] = words
         info_token['list_lemma'] = lemma
-    if with_stopwords:
         return info_token
     else:
         return info_post
@@ -126,16 +128,16 @@ def tag_text(text, f_stopwords=True):
         return analys_token(tokens, entity, entity_, with_stopwords=False)
 
 
-
-def make_article_filtering(article, with_stopwords):
+def make_article_filtering(article):
     """
         Summary:
             This functions...
         In:
-            - article: a dictionnary structured as an article
-            (see gr4 : robot)
+            - article: a dictionnary structured as the source article
+            (from gr4: robot)
         Out:
-            - dict_filtering: dictionnary which contains articles
+            - res_article: dictionnary structured an article, as a result from
+            gr5 (filtering).
     """
     res_art = {}
     res_art['article'] = {
@@ -145,7 +147,7 @@ def make_article_filtering(article, with_stopwords):
     }
     res_art['position_words'] = tag_text(
             article['content'],
-            f_stopwords=with_stopwords
+            f_stopwords=True
     )
     return res_art
 
