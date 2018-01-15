@@ -39,13 +39,13 @@ path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 def tag_text(article, f_stopwords=True):
     # remo ve punctuation
-    art = clean_symbols(article)
+    text = clean_symbols(article)
     # tokenize text
     tokenize = tokeniz(art)
     # Return list of entity end list of entity here " " are replace by "_"
     entity, entity_ = recognize_entity(tokenize)
     for keys in entity.keys():
-        art = art.replace(keys, keys.replace(" ", "_"))
+        text = text.replace(keys, keys.replace(" ", "_"))
     tokenize = tokeniz(art)
     
     # Here, we decide what to return based on the bool flag f_stopwords
