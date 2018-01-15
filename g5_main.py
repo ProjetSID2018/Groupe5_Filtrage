@@ -35,11 +35,13 @@ articles = import_daily_jsons(path_source)
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
-        filtered = tag_text(articles[item]['content'])
+        art = articles[item]
+        filtered = tag_text(art['content'])
+        art['content'] = filtered
         # post = make_dict_post_filtering(item)
         ifile = path_target + '/' + item + '_filtering.json'
         with open(ifile, 'w',
                   encoding='utf-8') as outfile:
-            json.dump(filtered, outfile, ensure_ascii=False)
+            json.dump(art, outfile, ensure_ascii=False)
         # write_filtering_jsons(filtered, path_target + '_filtering.json')
         pbar.update()

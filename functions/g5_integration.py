@@ -102,12 +102,12 @@ def tag_text(article, f_stopwords=True):
     # remo ve punctuation
     text = clean_symbols(article)
     # tokenize text
-    tokenize = tokeniz(art)
+    tokenize = tokeniz(text)
     # Return list of entity end list of entity here " " are replace by "_"
     entity, entity_ = transform_entity(tokenize)
     for keys in entity.keys():
         text = text.replace(keys, keys.replace(" ", "_"))
-    tokenize = tokeniz(art)
+    tokenize = tokeniz(text)
     
     # Here, we decide what to return based on the bool flag f_stopwords
     # if f_stopwords is True, we return the list of all the words alongside the
