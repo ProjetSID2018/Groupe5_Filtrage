@@ -10,14 +10,14 @@ import nltk
 import pickle
 from nltk import ne_chunk, pos_tag
 from nltk.tokenize import word_tokenize
-#from functions.g5_stopwords import get_stopwords
 import spacy
 nlp = spacy.load('fr')
 
 
 # Global variable, used many times and only needs to be loaded once
-#stop_words = get_stopwords()
-stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+
+# stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 
 # Goes through given POS-TAG tree if Tree not a tuple and returns a list of
 # all word/tag combinations.
@@ -84,7 +84,7 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
         words.append(token.text)
         lemma.append(token.lemma_)
 
-        if str(token.text) not in stop_words:
+        if str(token.text) in stop_words:
             tag = 'STOPWORD'
         else:
             tag = token.pos_
@@ -92,10 +92,9 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
         if str(token) in entity_.keys() and with_stopwords:
             info_token[i] = {'word': token.text,
                              'lemma': token.lemma_,
-                             'pos_tag': tag,
-                             'type_entity': entity_[str(token)][-1],
+                             'pos_tag': 'Null',
+                             'type_entity': entity_[str(token)],
                              'title': False}
-
         elif with_stopwords:
             info_token[i] = {'word': token.text,
                              'lemma': token.lemma_,
@@ -112,4 +111,3 @@ def analys_token(art_token, entity, entity_, with_stopwords=True):
         return info_token
     else:
         return info_post
-

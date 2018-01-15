@@ -30,16 +30,12 @@ stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-201
 # Import Jsons
 articles = import_daily_jsons(path_source)
 
-sub_articles = {key : articles[key] for key in list(articles)[0:4]}
-
+sub_articles = {key : articles[key] for key in list(articles)[0:500]}
 # articles = articles['artlibe42272018-01-08','artlibe19572018-01-08','artlibe25602018-01-08','artlibe32622018-01-08','','','','','','','','','','','','','','','','','','','','','','']
 # Treatment
-dict_filtering = make_dict_filtering(articles)
+dict_filtering = make_dict_filtering(sub_articles)
 
 dict_post = make_dict_post_filtering(sub_articles)
-dict_post[0]
-len(dict_post)
-[{'lemma': 'mourir', 'word': 'mourir'}, {'lemma': 'mourir', 'word': 'mourir'}, {'lemma': 'mourir', 'word': 'mourir'}]
 #var = post_WORD(dict_post)
 
 # Writing

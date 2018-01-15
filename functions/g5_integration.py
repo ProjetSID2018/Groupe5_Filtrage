@@ -14,8 +14,8 @@ from functions.g5_POS import tokeniz, analys_token
 from functions.g5_stemming import nltk_stemming
 #from functions.g5_stopwords import get_stopwords
 from functions.g5_named_entity import recognize_entity
-#stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
-stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+#stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 
 """============================================================================
@@ -45,7 +45,7 @@ def tag_text(article, f_stopwords=True):
     # Return list of entity end list of entity here " " are replace by "_"
     entity, entity_ = recognize_entity(tokenize)
     for keys in entity.keys():
-        art = article.replace(keys, keys.replace(" ", "_"))
+        art = art.replace(keys, keys.replace(" ", "_"))
     tokenize = tokeniz(art)
     # Here, we decide what to return based on the bool flag f_stopwords
     # if f_stopwords is True, we return the list of all the words alongside the

@@ -40,7 +40,6 @@ def get_continuous_chunks(text):
     # Out: list of NE identified by NLTK
     return continuous_chunk
 
-
 def recognize_entity(article):  # Unique named entity version
     Ent = {}
     Ent_und = {}

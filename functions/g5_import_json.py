@@ -30,7 +30,7 @@ def import_daily_jsons(path_source):
             where "date" corresponds to the most recent repository.
         In:
             - path_source : a string which corresponds to the localisation
-                of robot group (g4)
+                 of robot group (g4)
         Out:
             - articles : a dict of articles
     """

@@ -15,7 +15,17 @@ nltk.download('stopwords')
 
 
 # tf
-
+def tf(b):
+   a = []
+   for i in range(len(b)):
+       a.append(str(b[i]))
+   unique, counts = np.unique(a, return_counts=True)
+   dict_words = {}
+   for uk, ct in zip(unique, counts):
+       sum_words = np.sum(counts)
+       dict_words[uk] = ct/sum_words
+       continue
+   return dict_words
 
 # List of stop_words
 #def get_stopwords():
