@@ -16,8 +16,9 @@ nlp = spacy.load('fr')
 
 
 # Global variable, used many times and only needs to be loaded once
-#stop_words = get_stopwords()
-stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+# stop_words = get_stopwords()
+stop_words = pickle.load(open(
+        '/Users/Elise/Groupe5_Filtrage_bis/functions/stopwords.p', 'rb'))
 
 # Goes through given POS-TAG tree if Tree not a tuple and returns a list of
 # all word/tag combinations.

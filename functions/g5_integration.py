@@ -14,9 +14,9 @@ from functions.g5_POS import tokeniz, analys_token
 from functions.g5_stemming import nltk_stemming
 #from functions.g5_stopwords import get_stopwords
 from functions.g5_named_entity import recognize_entity
-stop_words = pickle.load(open('C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+#stop_words = pickle.load(open('C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 #stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p','rb'))
-
+stop_words = pickle.load(open('/Users/Elise/Groupe5_Filtrage_bis/functions/stopwords.p','rb'))
 
 """============================================================================
     links
@@ -87,8 +87,7 @@ def make_dict_filtering(articles):
     with tqdm(desc='Filtering', total=n_art) as progress_bar:
         for plain_text in articles:
             dict_filtering[plain_text]['content'] = tag_text(
-                    articles[plain_text]['content']
-                    )
+                    articles[plain_text]['content'])
             progress_bar.update()
             continue
     return dict_filtering
