@@ -33,29 +33,28 @@ stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-201
 # Import Jsons
 articles = import_daily_jsons(path_source)
 
-articles = {key : articles[key] for key in list(articles)[0:5]}
+articles = {key : articles[key] for key in list(articles)[0:10]}
 
 log = []
-test = []
+#test = []
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
         art = articles[item]
-#        data_post_content = tag_text(art, f_stopwords = False, isTitle = False)
-#        data_post_title = tag_text(art, f_stopwords = False, isTitle = True)
-#        data_post_title = list(data_post_title)
-#        for dic in range(len(data_post_title)):
-#            data_post_content["position_word"].append(data_post_title[dic])
-# 
-#        data_post = []
-#        data_post.append(data_post_content)
-#        data_post = json.dumps(data_post, ensure_ascii = 'False')
-#        log_post = post_filtering(data_post)
-#        print(log_post)
+        data_post_content = tag_text(art, f_stopwords = False, isTitle = False)
+        data_post_title = tag_text(art, f_stopwords = False, isTitle = True)
+        data_post_title = list(data_post_title)
+        for dic in range(len(data_post_title)):
+            data_post_content["position_word"].append(data_post_title[dic])
+        
+        data_post = []
+        data_post.append(data_post_content)
+        data_post = json.dumps(data_post, ensure_ascii = 'False')
+        log_post = post_filtering(data_post)
+        print(log_post)
 
         filtered = tag_text(art, f_stopwords = True, isTitle = False)
         art["content"] = filtered
-        # post = make_dict_post_filtering(item)
         ifile = path_target + '/' + item + '_filtering.json'
         with open(ifile, 'w',
                   encoding='utf-8') as outfile:
@@ -63,3 +62,6 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
            json.dump(art, outfile, ensure_ascii=False)
         # write_filtering_jsons(filtered, path_target + '_filtering.json')
         pbar.update()
+
+#pickle.dump(test, open('test_post.p', 'wb'))
+#pickle.dump(log, open('test_log_post.p', 'wb'))
