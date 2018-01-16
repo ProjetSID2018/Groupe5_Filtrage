@@ -110,28 +110,29 @@ def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_t
             i += 1
             continue
         else:
-            if str(token.text) in stop_words:
-                tag = 'STOPWORD'
-            else:
-                tag = token.pos_
-            if str(token) in entity_.keys():
-                info_title.append({
-                            'word': token.text,
-                            'lemma': token.lemma_,
-                            'post_tag': 'Null',
-                            'type_entity': entity_[str(token)],
-                            'position': i,
-                            'title': is_title
+#            if str(token.text) in stop_words:
+#                tag = 'STOPWORD'
+#            else:
+            tag = token.pos_
+            if str(token.text) not in stop_words:
+                if str(token) in entity_.keys():
+                    info_title.append({
+                                'word': token.text,
+                                'lemma': token.lemma_,
+                                'post_tag': 'Null',
+                                'type_entity': entity_[str(token)],
+                                'position': i,
+                                'title': is_title
+                                    })
+                else:
+                    info_title.append({
+                                'word': token.text,
+                                'lemma': token.lemma_,
+                                'post_tag': tag,
+                                'type_entity': 'Null',
+                                'position': i,
+                                'title': is_title
                                 })
-            else:
-                info_title.append({
-                            'word': token.text,
-                            'lemma': token.lemma_,
-                            'post_tag': tag,
-                            'type_entity': 'Null',
-                            'position': i,
-                            'title': is_title
-                            })
     if not is_title:
         if with_stopwords:
             info_token['words'] = words

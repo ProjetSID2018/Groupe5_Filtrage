@@ -13,6 +13,7 @@ from tqdm import tqdm
 # Server
 from functions.g5_import_json import import_daily_jsons
 from functions.g5_integration import tag_text
+from functions.g5_database_posts import post_filtering
 """============================================================================
     links
 ============================================================================"""
@@ -30,22 +31,30 @@ stop_words = pickle.load(open('C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_
 # Import Jsons
 articles = import_daily_jsons(path_source)
 
-# articles = {key : articles[key] for key in list(articles)[0:10]}
+articles = {key : articles[key] for key in list(articles)[0:10]}
+
+log = []
+test = []
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
         art = articles[item]
-        filtered_content = tag_text(art, False, False)
-        filtered_title = tag_text(art, False, True)
+        #filtered = tag_text(art, True, False)
+        filtered_content = tag_text(art, f_stopwords = False, isTitle = False)
+        filtered_title = tag_text(art, f_stopwords = False, isTitle = True)
         filtered_title=list(filtered_title)
         for dic in range(len(filtered_title)):
             filtered_content['word_info'].append(filtered_title[dic])
-        art['content'] = filtered_content
-        # post = make_dict_post_filtering(item)
-        ifile = path_target + '/' + item + '_filtering.json'
-        with open(ifile, 'w',
-                  encoding='utf-8') as outfile:
-            json.dump(filtered_content, outfile, ensure_ascii=False)
-#            json.dump(art, outfile, ensure_ascii=False)
-        # write_filtering_jsons(filtered, path_target + '_filtering.json')
+        log_post = post_filtering(filtered_content)
+        log.append(log_post)
+#        art['content'] = filtered_content
+#        # post = make_dict_post_filtering(item)
+#        ifile = path_target + '/' + item + '_filtering.json'
+#        with open(ifile, 'w',
+#                  encoding='utf-8') as outfile:
+#            json.dump(filtered_content, outfile, ensure_ascii=False)
+##            json.dump(art, outfile, ensure_ascii=False)
+#        # write_filtering_jsons(filtered, path_target + '_filtering.json')
         pbar.update()
+
+print(test)
