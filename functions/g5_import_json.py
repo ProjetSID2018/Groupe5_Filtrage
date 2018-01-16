@@ -65,30 +65,3 @@ def import_daily_jsons(path_source):
         continue
     # End all newspapers
     return articles
-
-
-
-# def write_filtering_jsons(art_filtering, path_target):
-#    """
-#        Summary:
-#             write filtering jsons :
-#                 path_target / article
-#        In:
-#            - art_filtering : dictionnary which contains a sub-dictionnary
-#                for each article.
-#            - path_target : a string which corresponds to the directory
-#                where json files must be writter
-#        Out :
-#            no result
-#    """
-#    with tqdm(desc='JSONing', total=len(art_filtering)) as fbar:
-#        # Loop : For each article :
-#        for iart in art_filtering:
-#            idict = art_filtering[iart]
-#            ifile = iart + '_filtering.json'
-#            with open(path_target + '/' + ifile, 'w',
-#                      encoding='utf-8') as outfile:
-#                json.dump(idict, outfile, ensure_ascii=False)
-#            fbar.update()
-#            continue
-#    return None
