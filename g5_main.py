@@ -23,15 +23,14 @@ from functions.g5_integration import tag_text
 #stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 # LINK ON GITHUB
-path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
-path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
-stop_words = pickle.load(open(
-        '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+path_source = 'C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_Filtrage/Data/source_press_article'
+path_target = 'C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_Filtrage/Data/target_press_article'
+stop_words = pickle.load(open('C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 
 # Import Jsons
 articles = import_daily_jsons(path_source)
 
-# sub_articles = {key : articles[key] for key in list(articles)[0:1]}
+# articles = {key : articles[key] for key in list(articles)[0:10]}
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
