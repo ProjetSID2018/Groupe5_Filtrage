@@ -32,10 +32,10 @@ stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions
 # Import Jsons
 articles = import_daily_jsons(path_source)
 
-articles = {key : articles[key] for key in list(articles)[0:5]}
+articles = {key : articles[key] for key in list(articles)[0:10]}
 
 log = []
-test = []
+#test = []
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
@@ -52,7 +52,7 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         log_post = post_filtering(data_post)
         print(log_post)
 #        test.append(data_post_content)
-#        log.append(log_post)
+        log.append(log_post)
         
         #filtered = tag_text(art, f_stopwords = True, isTitle = False)
 #        art["content"] = data_post_content
@@ -65,5 +65,3 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
 #        # write_filtering_jsons(filtered, path_target + '_filtering.json')
         pbar.update()
 
-#pickle.dump(test, open('test_post.p', 'wb'))
-#pickle.dump(log, open('test_log_post.p', 'wb'))
