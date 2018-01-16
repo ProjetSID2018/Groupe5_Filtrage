@@ -45,7 +45,8 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         filtered_title=list(filtered_title)
         for dic in range(len(filtered_title)):
             filtered_content['word_info'].append(filtered_title[dic])
-        log_post = post_filtering(filtered_content)
+        #log_post = post_filtering(filtered_content)
+        test.append(filtered_content)
         log.append(log_post)
 #        art['content'] = filtered_content
 #        # post = make_dict_post_filtering(item)
