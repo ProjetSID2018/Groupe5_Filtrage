@@ -9,20 +9,6 @@ import requests
 
 SERVER_URL = 'http://localhost:5005'
 
-def post_EN(json):
-    url_EN = 'http://130.120.8.250:5005/var/www/html/projet2018/code/bd_index/API/index/entity'
-    headers = {'Content-Type': 'application/json'}
-    response = requests.post(url_EN, headers=headers, json=json)
-    return response
-
-
-def post_POSTAG(json):
-    url_POS = 'http://130.120.8.250:5005/var/www/html/projet2018/code/bd_index/API/index/postagging'
-    headers = {'Content-Type': 'application/json'}
-    response = requests.post(url_POS, headers=headers, json=json)
-    return response
-
-
 def post_filtering(json):
     url_POS = SERVER_URL+'/var/www/html/projet2018/code/bd_index/API_V2/index/filtering'
     headers = {'Content-Type': 'application/json'}
