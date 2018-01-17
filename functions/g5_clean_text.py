@@ -50,13 +50,6 @@ def clean_symbols(text):
     # Out: text content without unnecessary characters
     return art
 
-articles['content']
-art_clean=(clean_symbols(articles['content']))
-art_clean
-tok=tokeniz(art_clean)
-tok
-tok[0]
-tag_text(articles,False,False)
 def text_modif(content):
 
     import re

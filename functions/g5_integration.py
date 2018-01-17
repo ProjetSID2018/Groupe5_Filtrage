@@ -8,22 +8,22 @@ Created on Wed Jan 10 13:57:06 2018
 
 import pickle
 from functions.g5_clean_text import clean_symbols
-from functions.g5_POS import tokeniz
-from functions.g5_named_entity import handing_entity
-#stop_words = pickle.load(open('C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
-stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+from functions.g5_tokenize import tokeniz
+from functions.g5_handing_entity import handing_entity
+stop_words = pickle.load(open('./functions/stopwords.p', 'rb'))
+#stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 """============================================================================
     links
 ============================================================================"""
 
 # LINK ON SERVER
-path_source = '/var/www/html/projet2018/data/clean/robot'
-path_target = '/var/www/html/projet2018/data/clean/filtering'
+#path_source = '/var/www/html/projet2018/data/clean/robot'
+#path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 # TEST LINK
-# path_source = '../Data/source_press_article'
-# path_target = '../Data/target_press_article'
+path_source = '../Data/source_press_article'
+path_target = '../Data/target_press_article'
 
 """============================================================================
     import json
@@ -32,8 +32,7 @@ path_target = '/var/www/html/projet2018/data/clean/filtering'
 # stop_words = get_stopwords()
 
 
-def analys_token(article, text_token, entity_,
-                 with_stopwords=True, is_title=False):
+def analys_token(article, text_token, entity_, is_title=False):
     """
         Summary:
             This function create the dictionnary.
@@ -68,26 +67,24 @@ def analys_token(article, text_token, entity_,
         }
         i += 1
 
-    if with_stopwords:
-        info_token["words"] = [tkn.text for tkn in text_token]
-        info_token["list_lemma"] = [tkn.lemma_ for tkn in text_token]
-        return info_token
-    else:
-        info_without = [token for token in info_token.values()
+
+    info_without = [token for token in info_token.values()
                                        if str(token["pos_tag"]) != "STOPWORD" and token["word"] != '.']
 
-        if not is_title:
-            post_w = {}
-            post_w["article"] = {"date_publication": article["date_publi"],
+    if not is_title:
+        post_w = {}
+        post_w["article"] = {"date_publication": article["date_publi"],
                                  "name_newspaper": article["newspaper"],
                                  "surname_author": article["author"].split(" ")
                                  }
-            post_w["position_word"] = info_without
-            return post_w
-        else:
-            return info_without
+        post_w["position_word"] = info_without
+        info_token["words"] = [tkn.text for tkn in text_token]
+        info_token["list_lemma"] = [tkn.lemma_ for tkn in text_token]
+        return post_w, info_token
+    else:
+        return info_without
 
-def tag_text(article, f_stopwords=True, isTitle=False):
+def tag_text(article, isTitle=False):
     """
         Summary:
         In:
@@ -122,4 +119,4 @@ def tag_text(article, f_stopwords=True, isTitle=False):
     tokens = tokeniz(clean_text)
 
 
-    return analys_token(article, tokens, entity_, with_stopwords=f_stopwords, is_title=isTitle)
+    return analys_token(article, tokens, entity_, is_title=isTitle)
