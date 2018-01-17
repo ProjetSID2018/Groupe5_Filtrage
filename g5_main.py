@@ -36,7 +36,7 @@ articles = import_daily_jsons(path_source)
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
         art = articles[item]
-        filtered, data_post_content = tag_text(art, isTitle=False)
+        data_post_content, filtered = tag_text(art, isTitle=False)
         data_post_title = tag_text(art, isTitle=True)
         data_post_title = list(data_post_title)
         for dic in range(len(data_post_title)):

@@ -75,7 +75,7 @@ def analys_token(article, text_token, entity_, is_title=False):
         post_w = {}
         post_w["article"] = {"date_publication": article["date_publi"],
                                  "name_newspaper": article["newspaper"],
-                                 "surname_author": article["author"].split(" ")
+                                 "surname_author": article["author"]
                                  }
         post_w["position_word"] = info_without
         info_token["words"] = [tkn.text for tkn in text_token]
