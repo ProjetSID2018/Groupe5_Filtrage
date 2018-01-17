@@ -14,6 +14,7 @@ from tqdm import tqdm
 # Server
 from functions.g5_import_json import import_daily_jsons
 from functions.g5_integration import tag_text
+from functions.g5_calcul_tf import tf
 # from functions.g5_database_posts import post_filtering
 """============================================================================
     links
@@ -34,6 +35,7 @@ articles = import_daily_jsons(path_source)
 # articles = {key: articles[key] for key in list(articles)[0:1]}
 # articles = articles['art_lmde_821_2018-01-12']
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
+    tableau_vide = []
     for item in articles:
         art = articles[item]
 #        data_post_content = tag_text(art, f_stopwords=False, isTitle=False)
@@ -47,13 +49,18 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
 #        log_post = post_filtering(data_post)
 #        id_article = log_post.json()[0][0]["message"]["id_article"]
 #        print('log_post = '+str(log_post)+'  |  id_article = '+str(id_article))
+        tableau_vide.append(tf(filtered["list_lemma"]))
         filtered = tag_text(art, f_stopwords=True, isTitle=False)
-        filtered
-        art["content"] = filtered
+#        art["content"] = filtered
 #        art["id_article"] = id_article
+        f = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/tf_lemma.json', 'w', encoding='utf-8')
+        json.dump(tableau_vide, f)
+        f.close()
         ifile = path_target + '/' + item + '_filtering.json'
-        with open(ifile, 'w',
-                  encoding='utf-8') as outfile:
-            json.dump(art, outfile, ensure_ascii=False)
+#        with open(ifile, 'w',
+#                  encoding='utf-8') as outfile:
+#            json.dump(art, outfile, ensure_ascii=False)
+        
         pbar.update()
+
 
