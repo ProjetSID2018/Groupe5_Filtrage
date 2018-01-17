@@ -10,19 +10,20 @@ import pickle
 from functions.g5_clean_text import clean_symbols
 from functions.g5_POS import tokeniz
 from functions.g5_named_entity import handing_entity
-stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
-#stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+#stop_words = pickle.load(open('C:/Users/mbriens/Documents/M2/Projet/GIT/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+
 """============================================================================
     links
 ============================================================================"""
 
 # LINK ON SERVER
-#path_source = '/var/www/html/projet2018/data/clean/robot'
-#path_target = '/var/www/html/projet2018/data/clean/filtering'
+path_source = '/var/www/html/projet2018/data/clean/robot'
+path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 # TEST LINK
-path_source = '../Data/source_press_article'
-path_target = '../Data/target_press_article'
+#path_source = '../Data/source_press_article'
+#path_target = '../Data/target_press_article'
 
 """============================================================================
     import json
@@ -179,25 +180,25 @@ def tag_text(article, f_stopwords=True, isTitle=False):
                             with_stopwords=False, is_title=isTitle)
 
 
-#def make_article_filtering(article):
-#    """
-#        Summary:
-#            This functions...
-#        In:
-#            - article: a dictionnary structured as the source article
-#            (from gr4: robot)
-#        Out:
-#            - res_article: dictionnary structured an article, as a result from
-#            gr5 (filtering).
-#    """
-#    res_art = {}
-#    res_art["article"] = {
-#            "date_publication": article["date_publi"],
-#            "name_newspaper": article["newspaper"],
-#            "surname_author": article["author"]
-#    }
-#    res_art["position_words"] = tag_text(
-#            article["content"],
-#            f_stopwords=True
-#    )
-#    return res_art
+def make_article_filtering(article):
+    """
+        Summary:
+            This functions...
+        In:
+            - article: a dictionnary structured as the source article
+            (from gr4: robot)
+        Out:
+            - res_article: dictionnary structured an article, as a result from
+            gr5 (filtering).
+    """
+    res_art = {}
+    res_art["article"] = {
+            "date_publication": article["date_publi"],
+            "name_newspaper": article["newspaper"],
+            "surname_author": article["author"]
+    }
+    res_art["position_words"] = tag_text(
+            article["content"],
+            f_stopwords=True
+    )
+    return res_art
