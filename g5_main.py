@@ -36,6 +36,7 @@ articles = import_daily_jsons(path_source)
 #articles = {key: articles[key] for key in list(articles)[0:10]}
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
+    tableau_vide = []
     for item in articles:
         art = articles[item]
         data_post_content, filtered = tag_text(art, isTitle=False)
@@ -70,7 +71,8 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         art["content"] = filtered
         #art["id_article"] = id_article
         ifile = path_target + '/' + item + '_filtering.json'
-        with open(ifile, 'w',
-                  encoding='utf-8') as outfile:
-            json.dump(art, outfile, ensure_ascii=False)
+#        with open(ifile, 'w',
+#                  encoding='utf-8') as outfile:
+#            json.dump(art, outfile, ensure_ascii=False)
+        
         pbar.update()

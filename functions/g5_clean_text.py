@@ -50,6 +50,7 @@ def clean_symbols(text):
     # Out: text content without unnecessary characters
     return art
 
+
 def text_modif(content):
 
     import re
@@ -176,7 +177,24 @@ def text_modif(content):
     matches_list = reg_exp_ten.findall(content)
 
     for matche in matches_list:
-        content = re.sub(matche, matche.replace('.', '_').replace(',','_').replace(' ','_'), content)  
+        content = re.sub(matche, matche.replace('.', '_').replace(',','_').replace(' ','_'), content) 
+        
+        # use regular expression to transform deg in space
+    reg_exp_eleven = re.compile(r'[a-zA-ÿ]+[deg][0-9]')
+    matches_list = reg_exp_eleven.findall(content)
+    
+    for matche in matches_list:
+        content = re.sub(matche, matche.replace('deg', ' '), content)
+
+    reg_exp_twelve = re.compile(r'[0-9][deg][a-zA-ÿ]+')
+    matches_list = reg_exp_twelve.findall(content)
+    for matche in matches_list:
+        content = re.sub(matche, matche.replace('deg', ' '), content)
+
+    reg_ex_thirteen = re.compile(r'[0-9][deg]')
+    matches_list = reg_ex_thirteen.findall(content)
+    for matche in matches_list:
+        content = re.sub(matche, matche.replace('deg', ' '), content)
 
     return(content)
 
