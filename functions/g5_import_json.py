@@ -41,11 +41,15 @@ def import_daily_jsons(path_source):
     if today in dates_ls:
         path_source += ('/' + today)
     else:
-        path_source += ('/' + dates_ls[-1])
+        try:
+            path_source += ('/' + dates_ls[-1])
+            print("No Directory found for today, previous directory loaded")
+        except:
+            print("No Directory found, sorry!")
     newspaper_ls = listdir(path_source)
     # Loop: For each inewspaper
     for inewspaper in newspaper_ls:
-        # management of hidden repositories: required on mac (.ds_store)
+        # management of hidden repositories: required on macOS (.ds_store)
         if not inewspaper.startswith('.'):
             xdirpaper = path_source + '/' + inewspaper
             files_ls = listdir(xdirpaper)
