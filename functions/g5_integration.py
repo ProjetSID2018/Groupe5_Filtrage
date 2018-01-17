@@ -31,7 +31,8 @@ path_target = '../Data/target_press_article'
 # stop_words = get_stopwords()
 
 
-def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_title=False):
+def analys_token(article, text_token, entity, entity_,
+                 with_stopwords=True, is_title=False):
     """
         Summary:
             This function create the dictionnary.
@@ -54,7 +55,7 @@ def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_t
     info_token = {}
     post_w = {}
     post_w["position_word"] = []
-    info_title=[]
+    info_title = []
     i = 1
     for token in text_token:
         words.append(token.text)
@@ -64,7 +65,6 @@ def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_t
                 tag = "STOPWORD"
             else:
                 tag = token.pos_
-    
             if str(token) in entity_.keys() and with_stopwords:
                 info_token[i] = {"word": token.text,
                                  "lemma": token.lemma_,
@@ -73,11 +73,6 @@ def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_t
                                  "position": i,
                                  "title": is_title}
             elif with_stopwords:
-#                info_token["title"] = article["title"]
-#                date
-#                info_token["date_publication"] = article["date_publi"]
-#                info_token["name_newspaper"] = article["newspaper"]
-#                info_token["author"] = article["author"]
                 info_token[i] = {"word": token.text,
                                  "lemma": token.lemma_,
                                  "pos_tag": tag,
@@ -107,16 +102,9 @@ def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_t
                                 "position": i,
                                 "title": is_title
                                 })
-    
-    #            info_post.append({"word": token.text,
-    #                              "lemma": token.lemma_,
-    #                              "position": i})
             i += 1
             continue
         else:
-#            if str(token.text) in stop_words:
-#                tag = "STOPWORD"
-#            else:
             tag = token.pos_
             if str(token.text) not in stop_words:
                 if str(token) in entity_.keys():
@@ -149,7 +137,6 @@ def analys_token(article, text_token, entity, entity_, with_stopwords=True, is_t
 
 
 def tag_text(article, f_stopwords=True, isTitle=False):
-    
     """
         Summary:
         In:
@@ -182,12 +169,14 @@ def tag_text(article, f_stopwords=True, isTitle=False):
     for keys in entity.keys():
         clean_text = clean_text.replace(keys, keys.replace(" ", "_"))
     tokens = tokeniz(clean_text)
-    #print(entity,entity_)
+
     # Here, we decide what to return based on the bool flag f_stopwords
     if f_stopwords:
-        return analys_token(article, tokens, entity, entity_, with_stopwords=True, is_title=isTitle)
+        return analys_token(article, tokens, entity, entity_,
+                            with_stopwords=True, is_title=isTitle)
     else:
-        return analys_token(article, tokens, entity, entity_, with_stopwords=False, is_title=isTitle)
+        return analys_token(article, tokens, entity, entity_,
+                            with_stopwords=False, is_title=isTitle)
 
 
 #def make_article_filtering(article):
@@ -212,48 +201,3 @@ def tag_text(article, f_stopwords=True, isTitle=False):
 #            f_stopwords=True
 #    )
 #    return res_art
-
-
-# def make_dict_filtering(articles):
-#    """
-#        Summary:
-#            This functions...
-#        In:
-#            - articles: dictionnary which contains articles
-#        Out:
-#            - dict_filtering: dictionnary which contains articles
-#    """
-#    # initialize articles
-#    dict_filtering = articles
-#    n_art = len(articles)
-#    with tqdm(desc='Filtering', total=n_art) as progress_bar:
-#        for plain_text in articles:
-#            dict_filtering[plain_text]['content'] = tag_text(
-#                    articles[plain_text]['content'])
-#            progress_bar.update()
-#            continue
-#    return dict_filtering
-#
-#
-# def make_dict_post_filtering(articles):
-#    """
-#        Summary:
-#            This functions...
-#        In:
-#            - articles: dictionnary which contains articles
-#        Out:
-#            - dict_filtering: dictionnary which contains articles
-#    """
-#    # initialize articles
-#    dict_filtering = articles
-#    n_art = len(articles)
-#    dic = []
-#    with tqdm(desc='Filtering', total=n_art) as progress_bar:
-#        for plain_text in articles:
-#            dict_filtering[plain_text]['content'] = tag_text(
-#                    articles[plain_text]['content'], False
-#                    )
-#            dic.append(dict_filtering[plain_text]['content'])
-#            progress_bar.update()
-#            continue
-#    return dic
