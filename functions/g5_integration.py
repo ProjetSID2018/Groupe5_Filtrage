@@ -10,7 +10,7 @@ import pickle
 from functions.g5_clean_text import clean_symbols
 from functions.g5_tokenize import tokeniz
 from functions.g5_handing_entity import handing_entity
-stop_words = pickle.load(open('./functions/stopwords.p', 'rb'))
+stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 #stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 """============================================================================

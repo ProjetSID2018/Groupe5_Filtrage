@@ -26,9 +26,9 @@ from functions.g5_calcul_tf import tf
 #stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 # LINK ON GITHUB
-path_source = './Data/source_press_article'
-path_target = './Data/target_press_article'
-stop_words = pickle.load(open('./functions/stopwords.p', 'rb'))
+path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
+path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
+stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 
 # Import Jsons
 articles = import_daily_jsons(path_source)
@@ -50,6 +50,7 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
 #        id_article = log_post.json()[0][0]["message"]["id_article"]
 #        print('log_post = '+str(log_post)+'  |  id_article = '+str(id_article))
         tableau_vide.append(tf(filtered["list_lemma"]))
+        art['content'] = filtered
 #        art["id_article"] = id_article
         f = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/tf_lemma.json', 'w', encoding='utf-8')
         json.dump(tableau_vide, f)
