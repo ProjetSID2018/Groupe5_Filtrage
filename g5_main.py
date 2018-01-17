@@ -33,6 +33,7 @@ stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions
 
 # Import Jsons
 articles = import_daily_jsons(path_source)
+
 #articles = {key: articles[key] for key in list(articles)[0:10]}
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
@@ -44,6 +45,7 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         data_post_title = list(data_post_title)
         for dic in range(len(data_post_title)):
             data_post_content["position_word"].append(data_post_title[dic])
+        data_post_content["id_art"] = art["id_art"]
         data_post = []
         data_post.append(data_post_content)
         #data_post = json.dumps(data_post, ensure_ascii='False')
@@ -71,8 +73,8 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         art["content"] = filtered
         #art["id_article"] = id_article
         ifile = path_target + '/' + item + '_filtering.json'
-#        with open(ifile, 'w',
-#                  encoding='utf-8') as outfile:
-#            json.dump(art, outfile, ensure_ascii=False)
+        with open(ifile, 'w',
+                  encoding='utf-8') as outfile:
+            json.dump(art, outfile, ensure_ascii=False)
         
         pbar.update()
