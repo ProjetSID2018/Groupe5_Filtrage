@@ -9,8 +9,10 @@ import requests
 
 SERVER_URL = 'http://localhost:5005'
 
+# 'var/www/html/projet2018/code/bd_index/API_V2/index/'
+
 def post_filtering(json):
-    url_POS = SERVER_URL+'/var/www/html/projet2018/code/bd_index/API_V2/index/filtering'
+    url_POS = SERVER_URL+'/filtering'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url_POS, headers=headers, data=json)
     return response
