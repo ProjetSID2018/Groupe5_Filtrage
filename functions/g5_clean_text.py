@@ -33,6 +33,11 @@ def clean_symbols(text):
     art = art.replace('?', '.')
     art = art.replace('!', '.')
     art = art.replace('...', '.')
+    art = art.replace('\n', '')
+    art = art.replace('\r', '')
+    art = art.replace("\\\"", "")
+    
+
     # Replace apostrophes by blanks
     art = re.sub(r'’', ' ', art)
     # Get previous letter

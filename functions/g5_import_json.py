@@ -34,7 +34,7 @@ def import_daily_jsons(path_source):
             - articles : a dict of articles
     """
     # Initialisation
-    articles = {}
+    article = {}
     # Get today directory
     today = datetime.now().strftime('%Y-%m-%d')
     dates_ls = listdir(path_source)
@@ -62,10 +62,10 @@ def import_daily_jsons(path_source):
                         # Import Json
                         with open(xdirpaper + '/' + ifile, 'r',
                                   encoding='utf-8') as dict_robot:
-                            articles[iname] = json.load(dict_robot)
+                            article[iname] = json.load(dict_robot)
                     fbar.update()
                     continue
                 # End newspaper repository
         continue
     # End all newspapers
-    return articles
+    return article

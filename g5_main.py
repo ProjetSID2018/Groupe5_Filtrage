@@ -29,7 +29,7 @@ from functions.g5_calcul_tf import tf
 path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
 path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
 stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
-
+idf = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/lemma_idf.p', 'rb'))
 # Import Jsons
 articles = import_daily_jsons(path_source)
 # articles = {key: articles[key] for key in list(articles)[0:1]}
@@ -49,16 +49,16 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
 #        log_post = post_filtering(data_post)
 #        id_article = log_post.json()[0][0]["message"]["id_article"]
 #        print('log_post = '+str(log_post)+'  |  id_article = '+str(id_article))
-        tableau_vide.append(tf(filtered["list_lemma"]))
+#        tableau_vide.append(tf(filtered["list_lemma"]))
         art['content'] = filtered
-#        art["id_article"] = id_article
-        f = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/tf_lemma.json', 'w', encoding='utf-8')
-        json.dump(tableau_vide, f)
-        f.close()
-        ifile = path_target + '/' + item + '_filtering.json'
-#        with open(ifile, 'w',
-#                  encoding='utf-8') as outfile:
-#            json.dump(art, outfile, ensure_ascii=False)
+#       art["id_article"] = id_article
+#        f = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/tf_lemma.json', 'w', encoding='utf-8')
+#        json.dump(tableau_vide, f)
+#        f.close()
+#        ifile = path_target + '/' + item + '_filtering.json'
+        with open(ifile, 'w',
+                  encoding='utf-8') as outfile:
+            json.dump(art, outfile, ensure_ascii=False)
         
         pbar.update()
 
