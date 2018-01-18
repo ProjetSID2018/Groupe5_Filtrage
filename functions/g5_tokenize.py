@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
 @group: Groupe 5 - Filtrage
-@author: Paul Lafaurie, Clément BRANDAO
+@author: Paul LAFAURIE, Clément BRANDAO
 
 Function : Get Part-of-Speech Tags for every word
 ============================================================================"""
