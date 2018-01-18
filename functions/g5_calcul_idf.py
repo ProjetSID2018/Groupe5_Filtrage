@@ -9,8 +9,8 @@ import numpy as np
 import math
 import pickle
 
-json_file = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/tf_lemma.json', encoding='utf-8')
-json_data = json.load(json_file)
+#json_file = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/tf_lemma.json', encoding='utf-8')
+#json_data = json.load(json_file)
 
 
 def tf(text_tok):
@@ -35,10 +35,10 @@ def idf(json_tf):
     return dic
 
 
-idf = idf(json_data)
-idf
-
-
-fichier = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/lemma_idf.p','wb')
-pickle.dump(idf, fichier)
-fichier.close()
+#idf = idf(json_data)
+#idf
+#
+#
+#fichier = open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/lemma_idf.p','wb')
+#pickle.dump(idf, fichier)
+#fichier.close()
