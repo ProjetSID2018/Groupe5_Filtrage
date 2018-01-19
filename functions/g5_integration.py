@@ -103,11 +103,13 @@ def tag_text(article, is_title=False):
         Out:
             2 results (see analys_tokens)
             if is_title = True:
-                - a dict with a list of all the words in the title processed and without stopwords
+                - a dict with a list of all the words in the title processed
+                and without stopwords
            if is_title = False:
                - a list of all the words striped of stopwords
                - a list of all the words
-               both with stems and pos-tags and a flag if the word is named entity
+               both with stems and pos-tags and a flag if the word is
+               named entity
     """
     if is_title:
         text = article["title"]

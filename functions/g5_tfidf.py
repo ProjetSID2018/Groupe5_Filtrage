@@ -19,6 +19,15 @@ stop_words = pickle.load(
 
 
 def tf(text_tok):
+    """
+        Summary:
+            this functions gives a dictionnaire where we have the TF associated
+            to each work in an article
+        In:
+            - text already tokenize
+        Out:
+            - TF for each word of the article gave in a dictionary
+    """
     a = [str(token) for token in text_tok]
     unique, counts = np.unique(a, return_counts=True)
     new_count = map(np.asscalar, counts)
@@ -27,9 +36,24 @@ def tf(text_tok):
 
 
 def get_tf_idf(filtered, id_article):
+    """
+        Summary:
+            Compute tf-idf  for each and every word in a given article
+            We get the idf values from a pre-computed file,
+            and we compute our final value by multiplying it
+            with the tf value for every word we encounter
+        In:
+            - text already tokenize
+        Out:
+            - TF for each word of the article gave in a dictionary
+    """
     dict_tf = tf(filtered)
     tfidf = []
     for key, val in dict_tf.items():
+        
+        
+        
+        
         if key not in stop_words:
             res = {
                 "lemma": key,
