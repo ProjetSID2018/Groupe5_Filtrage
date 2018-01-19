@@ -16,6 +16,7 @@ from functions.g5_import_json import import_daily_jsons
 from functions.g5_integration import tag_text
 from functions.g5_database_posts import post_filtering, post_tfidf
 from functions.g5_tfidf import get_tf_idf
+
 """============================================================================
     links
 ============================================================================"""
@@ -41,7 +42,6 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
     for item in articles:
         art = articles[item]
         data_post_content, filtered = tag_text(art, isTitle=False)
-        
         data_post_title = tag_text(art, isTitle=True)
         data_post_title = list(data_post_title)
         for dic in range(len(data_post_title)):
@@ -58,7 +58,6 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         ifile = path_post_filt_target + '/' + item + '_post_filtered.json'
         with open(ifile, 'w', encoding='utf-8') as outfile:
             json.dump(data_post, outfile, ensure_ascii=False)
-        
         tfidf = get_tf_idf(filtered['list_lemma'], art["id_art"])
 #        tfidf = json.dumps(tfidf, ensure_ascii='False')
 #        print('POST TF en cours ...')
@@ -68,11 +67,17 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         ifile = path_post_tf_target + '/' + item + '_post_tf.json'
         with open(ifile, 'w', encoding='utf-8') as outfile:
             json.dump(tfidf, outfile, ensure_ascii=False)
-        
-#        art["content"] = filtered
-#        #art["id_article"] = id_article
-#        ifile = path_target + '/' + item + '_filtering.json'
-#        with open(ifile, 'w',
-#                  encoding='utf-8') as outfile:
-#            json.dump(art, outfile, ensure_ascii=False)
+        art["content"] = filtered
+        #art["id_article"] = id_article
+        ifile = path_target + '/' + item + '_filtering.json'
+        with open(ifile, 'w',
+                  encoding='utf-8') as outfile:
+            json.dump(art, outfile, ensure_ascii=False)
         pbar.update()
+
+
+from functions.raph import post_json_filtering
+from functions.raph2 import post_json_tfidf
+
+post_json_filtering()
+post_json_tfidf()
