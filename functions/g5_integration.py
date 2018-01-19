@@ -1,33 +1,40 @@
-"""============================================================================
+"""
+============================================================================
 -*- coding: utf-8 -*-
 Created on Wed Jan 10 13:57:06 2018
 
 @author: Cedric BEZY, Paul LAFAURIE, Clément BRANDAO
 
-============================================================================"""
+============================================================================
+"""
 
 import pickle
 from functions.g5_clean_text import clean_symbols
 from functions.g5_tokenize import tokeniz
 from functions.g5_handing_entity import handing_entity
-#stop_words = pickle.load(open('./functions/stopwords.p', 'rb'))
-stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
+# stop_words = pickle.load(open('./functions/stopwords.p', 'rb'))
+stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/' +
+                              'functions/stopwords.p', 'rb'))
 
-"""============================================================================
+"""
+============================================================================
     links
-============================================================================"""
+============================================================================
+"""
 
 # LINK ON SERVER
 path_source = '/var/www/html/projet2018/data/clean/robot'
 path_target = '/var/www/html/projet2018/data/clean/filtering'
 
 # TEST LINK
-#path_source = '../Data/source_press_article'
-#path_target = '../Data/target_press_article'
+# path_source = '../Data/source_press_article'
+# path_target = '../Data/target_press_article'
 
-"""============================================================================
+"""
+============================================================================
     import json
-============================================================================"""
+============================================================================
+"""
 # Global variable, used many times and only needs to be loaded once
 # stop_words = get_stopwords()
 
@@ -61,28 +68,33 @@ def analys_token(article, text_token, entity_, is_title=False):
             "word": token.text,
             "lemma": token.lemma_,
             "pos_tag": tag,
-            "type_entity": entity_[str(token)] if str(token) in entity_.keys() else "",
+            "type_entity": entity_[str(token)]
+            if str(token) in entity_.keys()
+            else "",
             "position": i,
-            "title": (set(str(token.text).upper().replace("_"," ").split()).issubset(article["title"].upper().split(" ")))
+            "title": (set(str(token.text).upper().replace("_",
+                          " ").split()).issubset(article["title"].upper(
+                                  ).split(" ")))
         }
         i += 1
 
-
-    info_without = [token for token in info_token.values()
-                                       if str(token["pos_tag"]) != "STOPWORD" and token["word"] != '.']
+    info_without = [token for token in
+                    info_token.values() if str(token["pos_tag"]) != "STOPWORD"
+                    and token["word"] != '.']
 
     if not is_title:
         post_w = {}
         post_w["article"] = {"date_publication": article["date_publi"],
-                                 "name_newspaper": article["newspaper"],
-                                 "surname_author": article["author"]
-                                 }
+                             "name_newspaper": article["newspaper"],
+                             "surname_author": article["author"]
+                             }
         post_w["position_word"] = info_without
         info_token["words"] = [tkn.text for tkn in text_token]
         info_token["list_lemma"] = [tkn.lemma_ for tkn in text_token]
         return post_w, info_token
     else:
         return info_without
+
 
 def tag_text(article, isTitle=False):
     """
@@ -117,6 +129,5 @@ def tag_text(article, isTitle=False):
     for keys in entity.keys():
         clean_text = clean_text.replace(keys, keys.replace(" ", "_"))
     tokens = tokeniz(clean_text)
-
 
     return analys_token(article, tokens, entity_, is_title=isTitle)

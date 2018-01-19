@@ -1,11 +1,13 @@
-"""============================================================================
+"""
+============================================================================
 -*- coding: utf-8 -*-
 Created on Tue Jan  9 15:45:27 2018
 @group: Groupe 5 - Filtrage
 @author: Cedric Bezy
 
 Function : import and write json
-============================================================================"""
+============================================================================
+"""
 
 from os import listdir
 from re import findall
@@ -13,11 +15,13 @@ import json
 from tqdm import tqdm
 from datetime import datetime
 
-"""============================================================================
+"""
+============================================================================
     Functions :
         - import_daily_jsons : read daily json
         - write_filtering_jsons
-============================================================================"""
+============================================================================
+"""
 
 
 def import_daily_jsons(path_source):
@@ -44,7 +48,7 @@ def import_daily_jsons(path_source):
         try:
             path_source += ('/' + dates_ls[-1])
             print("No Directory found for today, previous directory loaded")
-        except:
+        except: 
             print("No Directory found, sorry!")
     newspaper_ls = listdir(path_source)
     # Loop: For each inewspaper

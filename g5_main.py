@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-"""============================================================================
+"""
+============================================================================
 Created on Tue Jan  10 15:45:27 2018
 @group: Groupe 5 - Filtrage
 @author: Cedric, Paul, Adrien, Maxime, Clément
 
 Main Program
-============================================================================"""
+============================================================================
+"""
 import pickle
 import json
 from tqdm import tqdm
@@ -16,21 +18,24 @@ from functions.g5_import_json import import_daily_jsons
 from functions.g5_integration import tag_text
 from functions.g5_database_posts import post_filtering, post_tfidf
 from functions.g5_tfidf import get_tf_idf
-"""============================================================================
+"""
+============================================================================
     links
-============================================================================"""
+============================================================================
+"""
 
 # LINK ON THE SERVER
 path_source = '/var/www/html/projet2018/data/clean/robot'
 path_target = '/var/www/html/projet2018/data/clean/filtering'
-path_post_filt_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_tfidf'
+path_post_filt_target = '/var/www/html/projet2018/data/clean/' +
+                        'temporary_filtering/post_tfidf'
 path_post_tf_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_filtering'
 stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions/stopwords.p', 'rb'))
 
 # LINK ON GITHUB
-#path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
-#path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
-#stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+# path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
+# path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
+# stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
 
 articles = import_daily_jsons(path_source)
 
