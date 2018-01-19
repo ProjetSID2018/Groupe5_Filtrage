@@ -34,7 +34,7 @@ stop_words = pickle.load(open('/var/www/html/projet2018/code/filtering/functions
 
 articles = import_daily_jsons(path_source)
 
-articles = {key: articles[key] for key in list(articles)[0:10]}
+#articles = {key: articles[key] for key in list(articles)[0:5]}
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     tableau_vide = []
@@ -49,7 +49,7 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         data_post_content["id_art"] = art["id_art"]
         data_post = []
         data_post.append(data_post_content)
-        data_post = json.dumps(data_post, ensure_ascii='False')
+#        data_post = json.dumps(data_post, ensure_ascii='False')
 #        print('POST filtering en cours ...')
 #        log_post_filt = post_filtering(data_post)
 #        print('POST filtering OK')
@@ -59,7 +59,8 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         with open(ifile, 'w', encoding='utf-8') as outfile:
             json.dump(data_post, outfile, ensure_ascii=False)
         
-        tfidf = get_tf_idf(filtered['list_lemma'], id_article)
+        tfidf = get_tf_idf(filtered['list_lemma'], art["id_art"])
+#        tfidf = json.dumps(tfidf, ensure_ascii='False')
 #        print('POST TF en cours ...')
 #        log_post_tf = post_tfidf(tfidf)
 #        print('POST TF OK')
@@ -68,10 +69,10 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
         with open(ifile, 'w', encoding='utf-8') as outfile:
             json.dump(tfidf, outfile, ensure_ascii=False)
         
-        art["content"] = filtered
-#        art["id_article"] = id_article
-        ifile = path_target + '/' + item + '_filtering.json'
-        with open(ifile, 'w',
-                  encoding='utf-8') as outfile:
-            json.dump(art, outfile, ensure_ascii=False)
+#        art["content"] = filtered
+#        #art["id_article"] = id_article
+#        ifile = path_target + '/' + item + '_filtering.json'
+#        with open(ifile, 'w',
+#                  encoding='utf-8') as outfile:
+#            json.dump(art, outfile, ensure_ascii=False)
         pbar.update()
