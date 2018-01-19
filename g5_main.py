@@ -24,14 +24,14 @@ from functions.g5_tfidf import get_tf_idf
 """
 
 # LINK ON THE SERVER
-path_source = '/var/www/html/projet2018/data/clean/robot'
-path_target = '/var/www/html/projet2018/data/clean/filtering'
-path_post_filt_target = '/var/www/html/projet2018/data/clean/' +
-                        'temporary_filtering/post_tfidf'
-path_post_tf_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_filtering'
+serv = '/var/www/html/projet2018'
+path_source = serv + '/data/clean/robot'
+path_target = serv + '/data/clean/filtering'
+path_post_filt_target = serv + '/data/clean/temporary_filtering/post_tfidf'
+path_post_tf_target = serv + '/data/clean/temporary_filtering/post_filtering'
 stop_words = pickle.load(
     open(
-        '/var/www/html/projet2018/code/filtering/functions/stopwords.p',
+        serv + '/code/filtering/functions/stopwords.p',
         'rb'))
 
 # LINK ON GITHUB
