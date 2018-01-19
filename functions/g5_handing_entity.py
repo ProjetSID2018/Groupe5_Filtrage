@@ -17,9 +17,9 @@ def handing_entity(tokenize_text):  # Unique named entity version
         Out:
             ...
     """
-    Ent = {}
-    Ent_und = {}
+    ent = {}
+    ent_und = {}
     for entity in tokenize_text.ents:
-        Ent[entity.text] = [entity.start_char, entity.end_char, entity.label_]
-        Ent_und[entity.text.replace(" ", "_")] = entity.label_
-    return Ent, Ent_und
+        ent[entity.text] = [entity.start_char, entity.end_char, entity.label_]
+        ent_und[entity.text.replace(" ", "_")] = entity.label_
+    return ent, ent_und
