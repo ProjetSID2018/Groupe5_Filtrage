@@ -7,9 +7,7 @@ import MySQLdb
 import glob
 import  os
 
-path_post_filt_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_tfidf'
-path_post_tf_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_filtering'
-
+path_post_tf_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_tfidf'
 
 def tf_idf(data, cursor):
     for article in data :
@@ -40,8 +38,6 @@ passwordDB = "interpromo2018"
 databasename = "DBIndex"
 
 cnx = mysql.connector.connect(user=username, password=passwordDB,host= servername, database=databasename)
-
-#db = MySQLdb.connect(user = username, passwd = passwordDB, host = servername, db = databasename)
 cursor = cnx.cursor()
 
 try:
@@ -53,4 +49,5 @@ except:
     print('Insertion of data in tf-idf db stopped')
 
 
+    
     

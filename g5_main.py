@@ -85,9 +85,7 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
             json.dump(art, outfile, ensure_ascii=False)
         pbar.update()
 
+import insert_json_filtering
+import insert_json_tfidf
 
-from functions.raph import post_json_filtering
-from functions.raph2 import post_json_tfidf
-
-post_json_filtering()
-post_json_tfidf()
+print('Opération journalière de filtrage et d\'intégration en Base de Données OK !')

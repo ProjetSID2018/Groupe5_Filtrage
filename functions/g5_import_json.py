@@ -42,15 +42,12 @@ def import_daily_jsons(path_source):
     # Get today directory
     today = datetime.now().strftime('%Y-%m-%d')
     dates_ls = listdir(path_source)
-    if today in dates_ls:
+    try:
         path_source += ('/' + today)
-    else:
-        try:
-            path_source += ('/' + dates_ls[-1])
-            print("No Directory found for today, previous directory loaded")
-        except OSError as ioex:
-            print('errno:', ioex.errno)
-            print("No Directory found, sorry!")
+    except OSError as ioex:
+        print('errno:', ioex.errno)
+        print("No Directory found today, sorry!")
+        sys.exit(1)
     newspaper_ls = listdir(path_source)
     # Loop: For each inewspaper
     for inewspaper in newspaper_ls:

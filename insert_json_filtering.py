@@ -7,9 +7,7 @@ import MySQLdb
 import glob
 import  os
 
-path_post_filt_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_tfidf'
-path_post_tf_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_filtering'
-
+path_post_filt_target = '/var/www/html/projet2018/data/clean/temporary_filtering/post_filtering'
 
 def filtering(data, cursor):
     for article in data :
@@ -70,29 +68,13 @@ passwordDB = "interpromo2018"
 databasename = "DBIndex"
 
 cnx = mysql.connector.connect(user=username, password=passwordDB,host= servername, database=databasename)
-
-#db = MySQLdb.connect(user = username, passwd = passwordDB, host = servername, db = databasename)
 cursor = cnx.cursor()
+cwd = os.getcwd()
 
 try:
     for file in os.listdir(path_post_filt_target):
         data = open(path_post_filt_target + '/' + file).read()
         data = json.loads(data)
         filtering(data, cursor)
-        print('POST OK')
 except:
     print('Insertion of data in filtering db stopped')
-
-
-
-'''
-try:
-    for file in os.listdir(path_post_tf_target):
-        data = open(path_post_tf_target + '/' + file).read()
-        data = json.loads(data)
-        filtering(data, cursor)
-except:
-    print('Insertion of data in tf-idf db stopped')
-'''
-
-    
