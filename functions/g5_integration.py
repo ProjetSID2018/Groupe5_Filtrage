@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Wed Jan 10 13:57:06 2018
 
-@author: Cedric, Paul, Clément BRANDAO
+@author: Cedric BEZY, Paul LAFAURIE, Clément BRANDAO
 
 ============================================================================"""
 
