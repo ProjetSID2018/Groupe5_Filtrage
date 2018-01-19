@@ -35,26 +35,25 @@ path_target = '/var/www/html/projet2018/data/clean/filtering'
     import json
 ============================================================================
 """
-# Global variable, used many times and only needs to be loaded once
-# stop_words = get_stopwords()
 
 
 def analys_token(article, text_token, entity_, is_title=False):
     """
         Summary:
-            This function create the dictionnary.
+            This function creates the dictionnary.
             Requires global variable "stop_words"
         In:
             - text_token: list of tokenized word
-            - entity:
-            - entity_:
-            - with_stopwords: boolean:
-                    * 'True' if stopwords are kept,
-                    * 'False' if they are dropped.
+            - entity_: list of named entities, whitespaces are underscores
+            - is_title: boolean:
+                    * 'True' if text_token contains the title,
+                    * 'False' if it's the actual article content.
         Out:
             - info_token : a dictionnary:
                 each compartiment is a dictionnary which contains informations
                 for each words
+            - post_w : info_token minus the stopwords
+            - info_without : processed title without stopwords
     """
     info_token = {}
     i = 1
@@ -103,15 +102,12 @@ def tag_text(article, is_title=False):
             from analys_token
         Out:
             2 results (see analys_tokens)
-            if stopwords = True:
-                a dict with:
-                    - a list of all the words alongside the list of all the
-                    words stems
-                    - a list of of each POS-TAG (in which stop-words are tagged
-                    as such regardless of what Tag they got)
-           if stopwords = False:
+            if is_title = True:
+                - a dict with a list of all the words in the title processed and without stopwords
+           if is_title = False:
                - a list of all the words striped of stopwords
-               - a list of the word stems
+               - a list of all the words
+               both with stems and pos-tags and a flag if the word is named entity
     """
     if is_title:
         text = article["title"]
