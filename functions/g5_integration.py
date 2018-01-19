@@ -3,7 +3,7 @@
 -*- coding: utf-8 -*-
 Created on Wed Jan 10 13:57:06 2018
 
-@author: Cedric, Paul, Clément BRANDAO
+@author: Paul LAFAURIE, Clément BRANDAO, Tom COGNIN
 
 ============================================================================
 """
@@ -99,9 +99,6 @@ def tag_text(article, is_title=False):
         Summary:
         In:
             - article: content of the article
-            /!\ il faudra a l'avenir qu'on soit rigoureux sur le nom des
-            arguments : soit utiliser 'text', soit 'content', mais le meme
-            de partout.
             - f_stopwords: boolean used with parameter "with_stopwords"
             from analys_token
         Out:

@@ -3,7 +3,7 @@
 ============================================================================
 Created on Tue Jan  10 15:45:27 2018
 @group: Groupe 5 - Filtrage
-@author: Cedric, Paul, Adrien, Maxime, Clément
+@author: Cedric BEZI, Paul LAFAURIE, Maxime BRIENS, Clément BRANDAO, Tom COGNIN
 
 Main Program
 ============================================================================

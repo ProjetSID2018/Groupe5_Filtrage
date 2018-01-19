@@ -3,7 +3,7 @@
 ============================================================================
 Created on Tue Jan 10 2018
 @group: Group 5 - Filtrage
-@author: Paul Lafaurie
+@author: Paul LAFAURIE, Adrien CAMINADE, Aurelien , Clément BRANDAO
 
 Function : Remove all non-word non-digit character
 ============================================================================
@@ -218,7 +218,7 @@ def text_modif(content):
 
     # use regular expression to transform number with space/. in number with _
     reg_exp_six = re.compile(
-        r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
+            r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
     matches_list = reg_exp_six.findall(content)
 
     for matche in matches_list:
