@@ -3,7 +3,7 @@
 """
 Created on Wed Jan 17 15:13:47 2018
 
-@author: brandao
+@author: Brandao, Lafaurie, Benois
 """
 import numpy as np
 
