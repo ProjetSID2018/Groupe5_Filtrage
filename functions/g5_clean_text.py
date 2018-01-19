@@ -36,6 +36,12 @@ def clean_symbols(text):
     art = art.replace('\n', '')
     art = art.replace('\r', '')
     art = art.replace("\\\"", "")
+    art = art.replace('\r', '')
+    art = art.replace('(', '')
+    art = art.replace(')', '')
+    art = art.replace('<', '')
+    art = art.replace('>', '')
+    
     
 
     # Replace apostrophes by blanks
