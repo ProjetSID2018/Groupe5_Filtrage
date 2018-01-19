@@ -2,7 +2,7 @@
 -*- coding: utf-8 -*-
 Created on Tue Jan 10 2018
 @group: Groupe 5 - Filtrage
-@author: Adrien Caminade, Paul Lafaurie, Clément BRANDAO
+@author: Clément BRANDAO
 
 Function : Get named entities from text
 ============================================================================"""
@@ -11,11 +11,14 @@ Function : Get named entities from text
 def handing_entity(tokenize_text):  # Unique named entity version
     """
         Summary:
-            this functions...
+            we go through a tokenize text (result of the function "tokenize"),
+            to find named entity in the text.
         In:
-            - article:
+            - tokenize text, result of function "tokeniz()"
         Out:
-            ...
+            - list of named entity, and the same list, but whitespaces
+            are replace by _, in order to recognize one entity, as one token in
+            the lemmatisation
     """
     ent = {}
     ent_und = {}

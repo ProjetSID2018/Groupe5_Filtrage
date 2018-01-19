@@ -3,7 +3,7 @@
 """
 Created on Tue Jan  18 15:45:27 2018
 @group: Groupe 5 - Filtrage
-@author: Clément, Maxime
+@author: Clément BRANDAO, Maxime BRIENS, Paul LAFAURIE
 """
 import numpy as np
 import pickle
@@ -18,15 +18,11 @@ stop_words = pickle.load(
         'rb'))
 
 
-def tf(articles):
-    a = []
-    for i in range(len(articles)):
-        a.append(str(articles[i]))
+def tf(text_tok):
+    a = [str(token) for token in text_tok]
     unique, counts = np.unique(a, return_counts=True)
-    dict_words = {}
-    for uk, ct in zip(unique, counts):
-        dict_words[uk] = ct
-        continue
+    new_count = map(np.asscalar, counts)
+    dict_words = dict(zip(unique, new_count))
     return dict_words
 
 

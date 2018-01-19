@@ -3,7 +3,7 @@
 -*- coding: utf-8 -*-
 Created on Wed Jan 10 13:57:06 2018
 
-@author: Cedric, Paul, Clément BRANDAO
+@author: Paul LAFAURIE, Clément BRANDAO, Tom COGNIN
 
 ============================================================================
 """
@@ -98,6 +98,8 @@ def tag_text(article, is_title=False):
         Summary:
         In:
             - article: content of the article
+            - f_stopwords: boolean used with parameter "with_stopwords"
+            from analys_token
         Out:
             2 results (see analys_tokens)
             if is_title = True:
