@@ -11,7 +11,3 @@ for file in listdir(path_post_filt_target):
 
 for file in listdir(path_post_tf_target):
     print(file)
-
-
-
-

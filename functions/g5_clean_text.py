@@ -9,9 +9,12 @@ Function : Remove all non-word non-digit character
 
 import re
 
+
 """============================================================================
     Clean Text of all weird symbols
 ============================================================================"""
+
+
 # Tokenization without punctuation
 # @param:text actual content of the article
 
@@ -27,7 +30,7 @@ def clean_symbols(text):
         Out:
             - art: cleaned text.
     """
-    
+
     art = text_modif(text)
     # Replace sentence ending punctuation by full-stop
     art = art.replace('?', '.')
@@ -41,17 +44,18 @@ def clean_symbols(text):
     art = art.replace(')', '')
     art = art.replace('<', '')
     art = art.replace('>', '')
-    
-    
 
     # Replace apostrophes by blanks
     art = re.sub(r'’', ' ', art)
+    art = art.replace('\n', '')
+    art = art.replace('\r', '')
     # Get previous letter
     prev_apostrophe = re.findall('([A-Za-z])\'', art)
     for letter in prev_apostrophe:
         art = re.sub(letter + '\'', letter + ' ', art)
         continue
     # Remove symbols and characters other than letters and digits(accents stay)
+    # noinspection Annotator
     art = re.sub(r'[^\w\s\._]', '', art, re.UNICODE)
     # Remove blanks at the beginning or the end.
     art = re.sub('^ +', '', art)
@@ -63,7 +67,6 @@ def clean_symbols(text):
 
 
 def text_modif(content):
-
     import re
 
     # use regular expression to transform few ' in _
@@ -104,17 +107,44 @@ def text_modif(content):
     reg_exp_one = re.compile(r'\d{4}[-/.]\d{2}[-/.]\d{2}')
     matches_list = reg_exp_one.findall(content)
     for matche in matches_list:
-        content = re.sub(matche, matche.replace('/', '_').replace('-', '_').replace('.', '_'), content)
+        content = re.sub(
+            matche,
+            matche.replace(
+                '/',
+                '_').replace(
+                '-',
+                '_').replace(
+                '.',
+                '_'),
+            content)
 
     reg_exp_two = re.compile(r'\d{2}[-/.]\d{2}[-/.]\d{4}')
     matches_list = reg_exp_two.findall(content)
     for matche in matches_list:
-        content = re.sub(matche, matche.replace('/', '_').replace('-', '_').replace('.', '_'), content)
+        content = re.sub(
+            matche,
+            matche.replace(
+                '/',
+                '_').replace(
+                '-',
+                '_').replace(
+                '.',
+                '_'),
+            content)
 
     reg_exp_three = re.compile(r'\d{2}[-/.]\d{2}[-/.]\d{2}')
     matches_list = reg_exp_three.findall(content)
     for matche in matches_list:
-        content = re.sub(matche,matche.replace('/', '_').replace('-', '_').replace('.', '_'), content)
+        content = re.sub(
+            matche,
+            matche.replace(
+                '/',
+                '_').replace(
+                '-',
+                '_').replace(
+                '.',
+                '_'),
+            content)
 
     # use regular expression to transform fraction with / in fraction with _
     reg_exp_four = re.compile(r'[0-9]+[/][0-9]+')
@@ -133,8 +163,8 @@ def text_modif(content):
               '[Jj]un', '[Jj]ul', '[Aa]o[uû]', '[Ss]ep',
               '[Oo]ct', '[Nn]ov', '[Dd][eé]c']
 
-    format_days = r'('+'|'.join(days) + r')? ?'
-    format_months = r'('+'|'.join(months) + r')[^A-Za-z,\.]?'
+    format_days = r'(' + '|'.join(days) + r')? ?'
+    format_months = r'(' + '|'.join(months) + r')[^A-Za-z,\.]?'
     pattern_three = re.compile(format_days +
                                r'(\d\d?)? ?' +
                                format_months +
@@ -151,61 +181,136 @@ def text_modif(content):
     list_without_month.sort(reverse=True)
     for matche in list_without_month:
         if matche[0] and matche[1] and matche[2] and matche[3]:
-            content = re.sub(matche[0] + ' ' + matche[1] + ' ' + matche[2] + ' ' + matche[3], ''.join(matche), content)
+            content = re.sub(
+                matche[0] +
+                ' ' +
+                matche[1] +
+                ' ' +
+                matche[2] +
+                ' ' +
+                matche[3],
+                ''.join(matche),
+                content)
         elif not matche[0] and not matche[1]:
-            content = re.sub(matche[2] + ' ' + matche[3], ''.join(matche), content)
+            content = re.sub(
+                matche[2] +
+                ' ' +
+                matche[3],
+                ''.join(matche),
+                content)
         elif not matche[0] and not matche[3]:
-            content = re.sub(matche[1] + ' ' + matche[2], ''.join(matche), content)
+            content = re.sub(
+                matche[1] +
+                ' ' +
+                matche[2],
+                ''.join(matche),
+                content)
         else:
-            content = re.sub(matche[1] + ' ' + matche[2] + ' ' + matche[3], ''.join(matche), content)
+            content = re.sub(
+                matche[1] +
+                ' ' +
+                matche[2] +
+                ' ' +
+                matche[3],
+                ''.join(matche),
+                content)
 
     # use regular expression to transform number with space/. in number with _
-    reg_exp_six = re.compile(r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
+    reg_exp_six = re.compile(
+        r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
     matches_list = reg_exp_six.findall(content)
 
     for matche in matches_list:
-        content = re.sub(matche, matche.replace('.', '_').replace(',','_').replace(' ','_'), content)    
+        content = re.sub(
+            matche,
+            matche.replace(
+                '.',
+                '_').replace(
+                ',',
+                '_').replace(
+                ' ',
+                '_'),
+            content)
 
-    reg_exp_seven = re.compile(r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
+    reg_exp_seven = re.compile(
+        r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
     matches_list = reg_exp_seven.findall(content)
 
     for matche in matches_list:
-        content= re.sub(matche, matche.replace('.', '_').replace(',','_').replace(' ','_'), content)    
+        content = re.sub(
+            matche,
+            matche.replace(
+                '.',
+                '_').replace(
+                ',',
+                '_').replace(
+                ' ',
+                '_'),
+            content)
 
-    reg_exp_eight = re.compile(r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
+    reg_exp_eight = re.compile(
+        r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}[., ][0-9]{1,3}')
     matches_list = reg_exp_eight.findall(content)
 
     for matche in matches_list:
-        content = re.sub(matche, matche.replace('.', '_').replace(',','_').replace(' ','_'), content)    
+        content = re.sub(
+            matche,
+            matche.replace(
+                '.',
+                '_').replace(
+                ',',
+                '_').replace(
+                ' ',
+                '_'),
+            content)
 
     reg_exp_nine = re.compile(r'[0-9]+[., ][0-9]{3}[., ][0-9]{3}')
     matches_list = reg_exp_nine.findall(content)
 
     for matche in matches_list:
-        content = re.sub(matche, matche.replace('.', '_').replace(',','_').replace(' ','_'), content)    
+        content = re.sub(
+            matche,
+            matche.replace(
+                '.',
+                '_').replace(
+                ',',
+                '_').replace(
+                ' ',
+                '_'),
+            content)
 
     reg_exp_ten = re.compile(r'[0-9]+[., ][0-9]')
     matches_list = reg_exp_ten.findall(content)
 
     for matche in matches_list:
-        content = re.sub(matche, matche.replace('.', '_').replace(',','_').replace(' ','_'), content) 
-        
+        content = re.sub(
+            matche,
+            matche.replace(
+                '.',
+                '_').replace(
+                ',',
+                '_').replace(
+                ' ',
+                '_'),
+            content)
+    try:
         # use regular expression to transform deg in space
-    reg_exp_eleven = re.compile(r'[a-zA-ÿ]+[deg][0-9]')
-    matches_list = reg_exp_eleven.findall(content)
-    
-    for matche in matches_list:
-        content = re.sub(matche, matche.replace('deg', ' '), content)
+        reg_exp_eleven = re.compile(r'[a-zA-ÿ]+[deg][0-9]')
+        matches_list = reg_exp_eleven.findall(content)
 
-    reg_exp_twelve = re.compile(r'[0-9][deg][a-zA-ÿ]+')
-    matches_list = reg_exp_twelve.findall(content)
-    for matche in matches_list:
-        content = re.sub(matche, matche.replace('deg', ' '), content)
+        for matche in matches_list:
+            content = re.sub(matche, matche.replace('deg', ' '), content)
 
-    reg_ex_thirteen = re.compile(r'[0-9][deg]')
-    matches_list = reg_ex_thirteen.findall(content)
-    for matche in matches_list:
-        content = re.sub(matche, matche.replace('deg', ' '), content)
+        reg_exp_twelve = re.compile(r'[0-9][deg][a-zA-ÿ]+')
+        matches_list = reg_exp_twelve.findall(content)
+        for matche in matches_list:
+            content = re.sub(matche, matche.replace('deg', ' '), content)
 
-    return(content)
+        reg_ex_thirteen = re.compile(r'[0-9][deg]')
+        matches_list = reg_ex_thirteen.findall(content)
+        for matche in matches_list:
+            content = re.sub(matche, matche.replace('deg', ' '), content)
+    except BaseException:
+        print("Deg stuff didn't work this time...")
 
+    return content

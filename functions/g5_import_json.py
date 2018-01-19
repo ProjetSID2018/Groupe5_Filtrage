@@ -44,7 +44,8 @@ def import_daily_jsons(path_source):
         try:
             path_source += ('/' + dates_ls[-1])
             print("No Directory found for today, previous directory loaded")
-        except:
+        except OSError as ioex:
+            print('errno:', ioex.errno)
             print("No Directory found, sorry!")
     newspaper_ls = listdir(path_source)
     # Loop: For each inewspaper
@@ -65,7 +66,7 @@ def import_daily_jsons(path_source):
                             article[iname] = json.load(dict_robot)
                     fbar.update()
                     continue
-                # End newspaper repository
+                    # End newspaper repository
         continue
     # End all newspapers
     return article
