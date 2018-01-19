@@ -35,9 +35,13 @@ stop_words = pickle.load(
         'rb'))
 
 # LINK ON GITHUB
-# path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/source_press_article'
-# path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/Data/target_press_article'
-# stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/Groupe5_Filtrage/functions/stopwords.p', 'rb'))
+# path_source = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/' +
+#                'Groupe5_Filtrage/Data/source_press_article'
+# path_target = '/Users/brandao/Desktop/COURS/ProjetInterPromo-2018/' +
+#               'Groupe5_Filtrage/Data/target_press_article'
+# stop_words = pickle.load(open('/Users/brandao/Desktop/COURS/' +
+#                               'ProjetInterPromo-2018/Groupe5_Filtrage/' +
+#                               'functions/stopwords.p', 'rb'))
 
 articles = import_daily_jsons(path_source)
 
@@ -59,9 +63,7 @@ with tqdm(desc='JSONing', total=len(articles)) as pbar:
 #        data_post = json.dumps(data_post, ensure_ascii='False')
 #        print('POST filtering en cours ...')
 #        log_post_filt = post_filtering(data_post)
-#        print('POST filtering OK')
 #        id_article = log_post_filt.json()[0][0]["message"]["id_article"]
-#        print('log_post_filt = '+str(log_post_filt)+'  |  id_article = '+str(id_article))
         ifile = path_post_filt_target + '/' + item + '_post_filtered.json'
         with open(ifile, 'w', encoding='utf-8') as outfile:
             json.dump(data_post, outfile, ensure_ascii=False)

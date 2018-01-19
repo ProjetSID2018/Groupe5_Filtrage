@@ -73,7 +73,9 @@ def analys_token(article, text_token, entity_, is_title=False):
             else "",
             "position": i,
             "title": (
-                set(str(token.text).upper().replace("_", " ").split()).issubset(article["title"].upper().split(" ")))
+                set(str(token.text).upper().replace("_",
+                    " ").split()).issubset(article["title"].upper(
+                            ).split(" ")))
         }
         i += 1
 
@@ -92,7 +94,7 @@ def analys_token(article, text_token, entity_, is_title=False):
         return info_without
 
 
-def tag_text(article, isTitle=False):
+def tag_text(article, is_title=False):
     """
         Summary:
         In:
@@ -125,6 +127,5 @@ def tag_text(article, isTitle=False):
     for keys in entity.keys():
         clean_text = clean_text.replace(keys, keys.replace(" ", "_"))
     tokens = tokeniz(clean_text)
-
 
     return analys_token(article, tokens, entity_, is_title=is_title)

@@ -4,8 +4,6 @@
 Created on Tue Jan  18 15:45:27 2018
 @group: Groupe 5 - Filtrage
 @author: Clément, Maxime
-
-Main Program
 """
 import numpy as np
 import pickle
