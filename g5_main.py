@@ -46,14 +46,14 @@ stop_words = pickle.load(
 
 articles = import_daily_jsons(path_source)
 
-# articles = {key: articles[key] for key in list(articles)[0:5]}
+articles = {key: articles[key] for key in list(articles)[0:10]}
 
 with tqdm(desc='JSONing', total=len(articles)) as pbar:
     tableau_vide = []
     for item in articles:
         art = articles[item]
-        data_post_content, filtered = tag_text(art, isTitle=False)
-        data_post_title = tag_text(art, isTitle=True)
+        data_post_content, filtered = tag_text(art, is_title=False)
+        data_post_title = tag_text(art, is_title=True)
         data_post_title = list(data_post_title)
         for dic in range(len(data_post_title)):
             data_post_content["position_word"].append(data_post_title[dic])
